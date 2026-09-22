@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services & Capabilities | LUMEO Digital Media - High-Impact Marketing Solutions</title>
+  <meta name="description"
+    content="Explore detailed growth services by LUMEO Digital Media: Meta Advertising, Google Ads, SEO, SMO, Video Production, Website Design, AI Contentology, and Influencer Marketing.">
+  <meta name="theme-color" content="#F3E8FF">
+
+  <!-- OpenGraph Meta -->
+  <meta property="og:title" content="LUMEO Digital Media Services | High-Performance Growth Capabilities">
+  <meta property="og:description"
+    content="Explore detailed information on our core digital marketing services engineered for maximum ROI and brand acceleration.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Favicon / Logo -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- Ambient Animated Background Blobs -->
+  <div class="bg-ambient-blob blob-1"></div>
+  <div class="bg-ambient-blob blob-2"></div>
+  <div class="bg-ambient-blob blob-3"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="navbar">
+    <div class="container">
+      <div class="nav-container">
+        <a href="index.html" class="brand-logo" id="mainBrandLogo">
+          <img src="assets/logo.png" alt="LUMEO Digital Media Logo" id="navLogoImg">
+          <div class="brand-title">LUMEO <span>Digital Media</span></div>
+        </a>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#hero" class="nav-link">Home</a></li>
+          <li><a href="services.html" class="nav-link active" style="color: #C084FC; font-weight: 700;">Services</a>
+          </li>
+          <li><a href="work.html" class="nav-link">Work</a></li>
+          <li><a href="why-us.html" class="nav-link">Why Us</a></li>
+        </ul>
+
+        <a href="#audit" class="btn btn-primary" id="headerCtaBtn">
+          <span>Contact us</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section for Services -->
+  <section class="services-hero-section" id="hero">
+    <!-- Canvas for interactive background starfield -->
+    <canvas id="heroCanvas" class="hero-particles-canvas"></canvas>
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-bg-glow"></div>
+
+    <div class="container" style="position: relative; z-index: 5;">
+      <div class="services-hero-header fade-in-up">
+        <div class="section-tag" style="display: inline-flex;">
+          <span class="tag-pulse-dot"></span>
+          <span>⚡ High-Impact Growth Solutions</span>
+        </div>
+        <h1 class="services-hero-title">Our Digital <span class="text-gradient animated-gradient-text">Capabilities &
+            Services</span></h1>
+        <p class="services-hero-subtitle">
+          Comprehensive, data-driven marketing solutions engineered to capture attention, engage target audiences, and
+          systematically convert interest into rapid revenue growth.
+        </p>
+
+        <!-- Category Filter & Search Toolbar -->
+        <div class="services-toolbar-container">
+          <div class="services-search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="serviceSearchInput" placeholder="Search services (e.g., Meta Ads, SEO, Video, AI...)"
+              aria-label="Search Services">
+          </div>
+
+          <div class="category-filter-tabs" id="categoryFilterTabs">
+            <button class="filter-btn active" data-category="all">🌟 All Services (8)</button>
+            <button class="filter-btn" data-category="paid-ads">🚀 Paid Ads</button>
+            <button class="filter-btn" data-category="search-seo">📈 Search & SEO</button>
+            <button class="filter-btn" data-category="creative-media">🎬 Creative & Social</button>
+            <button class="filter-btn" data-category="web-ai">💻 Web & AI</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Services Main Container -->
+  <main class="services-main-section">
+    <div class="container">
+
+      <!-- Interactive Services Grid / Cards -->
+      <div class="services-detailed-grid" id="servicesDetailedGrid">
+
+        <!-- 1. Meta Advertising -->
+        <article class="service-detail-card fade-in-up" data-category="paid-ads" data-service-id="meta_advertising"
+          id="meta-advertising">
+          <div class="card-sparkle sparkle-1">✦</div>
+          <div class="card-top">
+            <div class="service-badge-row">
+              <div class="service-icon-box">🚀</div>
+              <span class="service-cat-pill">Paid Advertising</span>
+            </div>
+            <h3>Meta Advertising</h3>
+            <p class="service-tagline">High-converting Facebook & Instagram campaigns engineered to acquire leads and
+              scale paid social ROI.</p>
+          </div>
+
+          <div class="service-overview-block">
+            <p>Meta Advertising provides direct access to billions of active users. We design thumb-stopping visual ad
+              creatives, target high-intent buyer personas, deploy lookalike audiences, and build multi-stage
+              retargeting funnels that convert cold traffic into loyal clients.</p>
+          </div>
+
+          <div class="service-highlights-grid">
+            <div class="highlight-item"><span class="check">✓</span> FB & IG Ad Campaign Architecture</div>
+            <div class="highlight-item"><span class="check">✓</span> Precision Audience & Lookalike Targeting</div>
+            <div class="highlight-item"><span class="check">✓</span> Full-Funnel Lead Gen & E-Commerce Ads</div>
+            <div class="highlight-item"><span class="check">✓</span> Dynamic Retargeting & Creative A/B Testing</div>
+          </div>
+
+          <!-- Process Pills -->
+          <div class="service-process-strip">
+            <div class="process-step"><span>1</span> Audience Setup</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>2</span> Creative Testing</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>3</span> ROAS Scaling</div>
+          </div>
+
+          <!-- Expandable Technical Breakdown Accordion -->
+          <div class="service-accordion-content" id="accordion-meta">
+            <div class="accordion-inner">
+              <div class="acc-row">
+                <strong>Target Audience:</strong> B2B & B2C brands looking for rapid customer acquisition, e-commerce
+                stores, and lead-gen businesses.
+              </div>
+              <div class="acc-row">
+                <strong>Key KPIs Tracked:</strong> Cost Per Lead (CPL), Customer Acquisition Cost (CAC), Click-Through
+                Rate (CTR), and Return on Ad Spend (ROAS).
+              </div>
+              <div class="acc-row">
+                <strong>Tech & Platforms:</strong> Meta Ads Manager, Facebook Pixel, Conversions API, Hyros Attribution.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer-actions">
+            <button class="btn btn-secondary btn-sm toggle-accordion-btn" data-target="accordion-meta">
+              <span>View In-Depth Details</span>
+              <span class="acc-icon">▼</span>
+            </button>
+            <button class="btn btn-primary btn-sm book-service-btn" data-service-val="meta_advertising"
+              data-service-title="Meta Advertising">
+              <span>Book Strategy Call</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 2. Google Ads -->
+        <article class="service-detail-card fade-in-up delay-1" data-category="paid-ads" data-service-id="google_ads"
+          id="google-ads">
+          <div class="card-sparkle sparkle-2">✧</div>
+          <div class="card-top">
+            <div class="service-badge-row">
+              <div class="service-icon-box">🎯</div>
+              <span class="service-cat-pill">Paid Advertising</span>
+            </div>
+            <h3>Google Ads</h3>
+            <p class="service-tagline">Capture high-intent search traffic at the exact moment prospects are looking to
+              purchase your services.</p>
+          </div>
+
+          <div class="service-overview-block">
+            <p>Position your enterprise at the top of Google search results. Our campaign engineering combines negative
+              keyword scrubbing, high-converting ad copy, bid management (tCPA/tROAS), and landing page alignment to
+              turn search intent into measurable revenue.</p>
+          </div>
+
+          <div class="service-highlights-grid">
+            <div class="highlight-item"><span class="check">✓</span> Precision Keyword Intent Bidding</div>
+            <div class="highlight-item"><span class="check">✓</span> Google Search, Display & Shopping Ads</div>
+            <div class="highlight-item"><span class="check">✓</span> Performance Max & YouTube Video Ads</div>
+            <div class="highlight-item"><span class="check">✓</span> Real-Time Conversion Attribution</div>
+          </div>
+
+          <div class="service-process-strip">
+            <div class="process-step"><span>1</span> Intent Keyword Audit</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>2</span> Ad Copy & Bidding</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>3</span> Conversion Tracking</div>
+          </div>
+
+          <div class="service-accordion-content" id="accordion-google">
+            <div class="accordion-inner">
+              <div class="acc-row">
+                <strong>Target Audience:</strong> High-intent service providers, e-commerce retailers, and companies
+                capturing existing demand.
+              </div>
+              <div class="acc-row">
+                <strong>Key KPIs Tracked:</strong> Cost Per Click (CPC), Quality Score, Conversion Rate (CVR), and ROAS.
+              </div>
+              <div class="acc-row">
+                <strong>Tech & Platforms:</strong> Google Ads Editor, GA4 Analytics, Google Tag Manager, Keyword
+                Planner.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer-actions">
+            <button class="btn btn-secondary btn-sm toggle-accordion-btn" data-target="accordion-google">
+              <span>View In-Depth Details</span>
+              <span class="acc-icon">▼</span>
+            </button>
+            <button class="btn btn-primary btn-sm book-service-btn" data-service-val="google_ads"
+              data-service-title="Google Ads">
+              <span>Book Strategy Call</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 3. Search Engine Optimization (SEO) -->
+        <article class="service-detail-card fade-in-up delay-2" data-category="search-seo" data-service-id="seo"
+          id="seo">
+          <div class="card-sparkle sparkle-1">✦</div>
+          <div class="card-top">
+            <div class="service-badge-row">
+              <div class="service-icon-box">📈</div>
+              <span class="service-cat-pill">Organic Growth</span>
+            </div>
+            <h3>SEO & Organic Search</h3>
+            <p class="service-tagline">Dominant search engine rankings that drive compounding organic traffic and
+              long-term authority.</p>
+          </div>
+
+          <div class="service-overview-block">
+            <p>Outrank your competitors with data-driven Search Engine Optimization. We resolve technical site errors,
+              optimize page structure and schema markup, build contextual content clusters, and earn high-authority
+              backlinks to secure #1 rankings for high-value search terms.</p>
+          </div>
+
+          <div class="service-highlights-grid">
+            <div class="highlight-item"><span class="check">✓</span> Technical Audit & Core Web Vitals Fixes</div>
+            <div class="highlight-item"><span class="check">✓</span> Search Intent & Keyword Clustering</div>
+            <div class="highlight-item"><span class="check">✓</span> On-Page Optimization & Schema Markup</div>
+            <div class="highlight-item"><span class="check">✓</span> High-Authority Backlink Acquisition</div>
+          </div>
+
+          <div class="service-process-strip">
+            <div class="process-step"><span>1</span> Technical Audit</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>2</span> On-Page & Content</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>3</span> Link Authority</div>
+          </div>
+
+          <div class="service-accordion-content" id="accordion-seo">
+            <div class="accordion-inner">
+              <div class="acc-row">
+                <strong>Target Audience:</strong> Businesses seeking sustainable, non-paid customer acquisition and
+                organic brand trust.
+              </div>
+              <div class="acc-row">
+                <strong>Key KPIs Tracked:</strong> Organic Impressions, Keyword Rankings, Domain Authority, Organic Lead
+                Volume.
+              </div>
+              <div class="acc-row">
+                <strong>Tech & Tools:</strong> Ahrefs, SEMrush, Google Search Console, Screaming Frog.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer-actions">
+            <button class="btn btn-secondary btn-sm toggle-accordion-btn" data-target="accordion-seo">
+              <span>View In-Depth Details</span>
+              <span class="acc-icon">▼</span>
+            </button>
+            <button class="btn btn-primary btn-sm book-service-btn" data-service-val="seo"
+              data-service-title="SEO Optimization">
+              <span>Book Strategy Call</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 4. Social Media Optimization (SMO) -->
+        <article class="service-detail-card fade-in-up" data-category="creative-media" data-service-id="smo" id="smo">
+          <div class="card-sparkle sparkle-2">✧</div>
+          <div class="card-top">
+            <div class="service-badge-row">
+              <div class="service-icon-box">📱</div>
+              <span class="service-cat-pill">Social & Creative</span>
+            </div>
+            <h3>Social Media Optimization</h3>
+            <p class="service-tagline">Transform your brand channels into vibrant community hubs that inspire trust and
+              viral engagement.</p>
+          </div>
+
+          <div class="service-overview-block">
+            <p>Stand out in crowded social feeds. We optimize your multi-platform profiles, curate high-impact visual
+              themes, capitalize on trending audio and formats, manage follower interactions, and monitor sentiment to
+              turn casual viewers into loyal brand advocates.</p>
+          </div>
+
+          <div class="service-highlights-grid">
+            <div class="highlight-item"><span class="check">✓</span> Profile Optimization & Visual Branding</div>
+            <div class="highlight-item"><span class="check">✓</span> Viral Trend & Audio Leveraging Strategy</div>
+            <div class="highlight-item"><span class="check">✓</span> Content Calendar & Community Management</div>
+            <div class="highlight-item"><span class="check">✓</span> Brand Sentiment & Analytics Tracking</div>
+          </div>
+
+          <div class="service-process-strip">
+            <div class="process-step"><span>1</span> Brand Styling</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>2</span> Content Curation</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>3</span> Community Growth</div>
+          </div>
+
+          <div class="service-accordion-content" id="accordion-smo">
+            <div class="accordion-inner">
+              <div class="acc-row">
+                <strong>Target Audience:</strong> Lifestyle, B2C, retail, personal brands, and companies seeking active
+                audience engagement.
+              </div>
+              <div class="acc-row">
+                <strong>Key KPIs Tracked:</strong> Follower Growth Rate, Engagement Rate, Share Rate, Profile Visits.
+              </div>
+              <div class="acc-row">
+                <strong>Platforms:</strong> Instagram, LinkedIn, TikTok, X (Twitter), YouTube.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer-actions">
+            <button class="btn btn-secondary btn-sm toggle-accordion-btn" data-target="accordion-smo">
+              <span>View In-Depth Details</span>
+              <span class="acc-icon">▼</span>
+            </button>
+            <button class="btn btn-primary btn-sm book-service-btn" data-service-val="smo"
+              data-service-title="Social Media Optimization">
+              <span>Book Strategy Call</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 5. Video Production -->
+        <article class="service-detail-card fade-in-up delay-1" data-category="creative-media"
+          data-service-id="video_production" id="video-production">
+          <div class="card-sparkle sparkle-1">✦</div>
+          <div class="card-top">
+            <div class="service-badge-row">
+              <div class="service-icon-box">🎬</div>
+              <span class="service-cat-pill">Creative Production</span>
+            </div>
+            <h3>Video Production</h3>
+            <p class="service-tagline">Cinematic commercial ads, promotional media, and viral short-form Reels that
+              demand attention.</p>
+          </div>
+
+          <div class="service-overview-block">
+            <p>Video is the ultimate driver of digital engagement. Our full-service video production team handles
+              concept development, hook scripting, 4K filming, professional color grading, sound design, motion
+              graphics, and rapid vertical editing for Reels, Shorts, and TikToks.</p>
+          </div>
+
+          <div class="service-highlights-grid">
+            <div class="highlight-item"><span class="check">✓</span> Concepting, Scripting & Storyboarding</div>
+            <div class="highlight-item"><span class="check">✓</span> High-Definition Commercial Filming</div>
+            <div class="highlight-item"><span class="check">✓</span> Short-Form Vertical Reels & TikTok Assets</div>
+            <div class="highlight-item"><span class="check">✓</span> Post-Production, Motion Graphics & FX</div>
+          </div>
+
+          <div class="service-process-strip">
+            <div class="process-step"><span>1</span> Script & Storyboard</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>2</span> Filming & Shoot</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>3</span> Edit & Motion FX</div>
+          </div>
+
+          <div class="service-accordion-content" id="accordion-video">
+            <div class="accordion-inner">
+              <div class="acc-row">
+                <strong>Target Audience:</strong> Brands looking for high-converting video ad creatives, corporate
+                showcase videos, and viral social content.
+              </div>
+              <div class="acc-row">
+                <strong>Key KPIs Tracked:</strong> 3-Second Hook Retention, Average Watch Time, Video Play Rate,
+                Click-Through Rate.
+              </div>
+              <div class="acc-row">
+                <strong>Software & Gear:</strong> Adobe Premiere Pro, After Effects, DaVinci Resolve, 4K Cinema Rigging.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer-actions">
+            <button class="btn btn-secondary btn-sm toggle-accordion-btn" data-target="accordion-video">
+              <span>View In-Depth Details</span>
+              <span class="acc-icon">▼</span>
+            </button>
+            <button class="btn btn-primary btn-sm book-service-btn" data-service-val="video_production"
+              data-service-title="Video Production">
+              <span>Book Strategy Call</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 6. Website & Landing Page Design -->
+        <article class="service-detail-card fade-in-up delay-2" data-category="web-ai" data-service-id="website_design"
+          id="website-design">
+          <div class="card-sparkle sparkle-2">✧</div>
+          <div class="card-top">
+            <div class="service-badge-row">
+              <div class="service-icon-box">💻</div>
+              <span class="service-cat-pill">Web & Digital</span>
+            </div>
+            <h3>Website & Landing Page Design</h3>
+            <p class="service-tagline">Lightning-fast, mobile-first, and high-converting websites designed to turn
+              visitors into paying clients.</p>
+          </div>
+
+          <div class="service-overview-block">
+            <p>Your website is your primary digital growth engine. We design and build visually captivating, ultra-fast
+              websites and ad landing pages with modern UX/UI, glassmorphic aesthetics, clear call-to-actions,
+              responsive design, and seamless CRM integrations.</p>
+          </div>
+
+          <div class="service-highlights-grid">
+            <div class="highlight-item"><span class="check">✓</span> Conversion-Focused UI/UX Layouts</div>
+            <div class="highlight-item"><span class="check">✓</span> Mobile-First Responsiveness & Speed</div>
+            <div class="highlight-item"><span class="check">✓</span> High-Converting Sales & Lead Funnels</div>
+            <div class="highlight-item"><span class="check">✓</span> CRM, Analytics & Payment Integrations</div>
+          </div>
+
+          <div class="service-process-strip">
+            <div class="process-step"><span>1</span> UX Wireframing</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>2</span> UI Build & Code</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>3</span> Launch & Speed Test</div>
+          </div>
+
+          <div class="service-accordion-content" id="accordion-web">
+            <div class="accordion-inner">
+              <div class="acc-row">
+                <strong>Target Audience:</strong> Enterprises and startups needing modern web redesigns or dedicated
+                landing pages for ad campaigns.
+              </div>
+              <div class="acc-row">
+                <strong>Key KPIs Tracked:</strong> Page Load Time (&lt; 1.5s), Bounce Rate, Form Conversion Rate, Mobile
+                Performance Score.
+              </div>
+              <div class="acc-row">
+                <strong>Tech Stack:</strong> HTML5, CSS3, JavaScript, Webflow, WordPress, React / Vite.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer-actions">
+            <button class="btn btn-secondary btn-sm toggle-accordion-btn" data-target="accordion-web">
+              <span>View In-Depth Details</span>
+              <span class="acc-icon">▼</span>
+            </button>
+            <button class="btn btn-primary btn-sm book-service-btn" data-service-val="website_design"
+              data-service-title="Website & Landing Page Design">
+              <span>Book Strategy Call</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 7. AI Contentology -->
+        <article class="service-detail-card fade-in-up" data-category="web-ai" data-service-id="ai_contentology"
+          id="ai-contentology">
+          <div class="card-sparkle sparkle-1">✦</div>
+          <div class="card-top">
+            <div class="service-badge-row">
+              <div class="service-icon-box">🤖</div>
+              <span class="service-cat-pill">AI & Strategy</span>
+            </div>
+            <h3>AI Contentology</h3>
+            <p class="service-tagline">Supercharge content production with generative AI workflows, predictive copy
+              tuning, and multi-asset automation.</p>
+          </div>
+
+          <div class="service-overview-block">
+            <p>Combine human creative direction with artificial intelligence. We build custom AI prompt models and
+              automation pipelines for hyper-fast copywriting, predictive performance scoring, multi-channel content
+              repurposing, and automated ad variations.</p>
+          </div>
+
+          <div class="service-highlights-grid">
+            <div class="highlight-item"><span class="check">✓</span> Generative Copywriting & Ad Variations</div>
+            <div class="highlight-item"><span class="check">✓</span> Predictive Engagement & Performance Scoring</div>
+            <div class="highlight-item"><span class="check">✓</span> Multi-Format Content Repurposing Engines</div>
+            <div class="highlight-item"><span class="check">✓</span> AI-Driven Email & Funnel Personalization</div>
+          </div>
+
+          <div class="service-process-strip">
+            <div class="process-step"><span>1</span> AI Model Tuning</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>2</span> Asset Multiplication</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>3</span> Automated Distribution</div>
+          </div>
+
+          <div class="service-accordion-content" id="accordion-ai">
+            <div class="accordion-inner">
+              <div class="acc-row">
+                <strong>Target Audience:</strong> High-volume content marketers, agencies, and brands scaling
+                multi-channel messaging rapidly.
+              </div>
+              <div class="acc-row">
+                <strong>Key KPIs Tracked:</strong> Content Production Velocity (10x), Asset Multiplicity, Ad Testing
+                Variations.
+              </div>
+              <div class="acc-row">
+                <strong>Tech Stack:</strong> Custom LLM Prompts, ChatGPT-4o, Midjourney, Claude API, Make.com Workflows.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer-actions">
+            <button class="btn btn-secondary btn-sm toggle-accordion-btn" data-target="accordion-ai">
+              <span>View In-Depth Details</span>
+              <span class="acc-icon">▼</span>
+            </button>
+            <button class="btn btn-primary btn-sm book-service-btn" data-service-val="ai_contentology"
+              data-service-title="AI Contentology">
+              <span>Book Strategy Call</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- 8. Influencer Marketing -->
+        <article class="service-detail-card fade-in-up delay-1" data-category="creative-media"
+          data-service-id="influencer_marketing" id="influencer-marketing">
+          <div class="card-sparkle sparkle-2">✧</div>
+          <div class="card-top">
+            <div class="service-badge-row">
+              <div class="service-icon-box">📣</div>
+              <span class="service-cat-pill">Social & Creative</span>
+            </div>
+            <h3>Influencer Marketing</h3>
+            <p class="service-tagline">Strategic creator collaborations and UGC licensing that build instant trust and
+              drive direct sales.</p>
+          </div>
+
+          <div class="service-overview-block">
+            <p>Harness authentic creator voices to elevate your brand. We source, vet, contract, and manage high-ROI
+              micro and macro influencer partnerships. From product unboxings and reviews to sponsored giveaways and
+              viral brand takeovers.</p>
+          </div>
+
+          <div class="service-highlights-grid">
+            <div class="highlight-item"><span class="check">✓</span> Niche Creator Sourcing & Audience Vetting</div>
+            <div class="highlight-item"><span class="check">✓</span> Campaign Contracting & Deliverable Management</div>
+            <div class="highlight-item"><span class="check">✓</span> User-Generated Content (UGC) Ad Licensing</div>
+            <div class="highlight-item"><span class="check">✓</span> Trackable Promo Codes & Direct ROI Analytics</div>
+          </div>
+
+          <div class="service-process-strip">
+            <div class="process-step"><span>1</span> Creator Vetting</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>2</span> Briefing & Outreach</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step"><span>3</span> Sales Tracking</div>
+          </div>
+
+          <div class="service-accordion-content" id="accordion-influencer">
+            <div class="accordion-inner">
+              <div class="acc-row">
+                <strong>Target Audience:</strong> Consumer goods, e-commerce, mobile apps, and brands desiring viral
+                social proof.
+              </div>
+              <div class="acc-row">
+                <strong>Key KPIs Tracked:</strong> Earned Media Value (EMV), Creator Conversion Rate, Promo Code Sales
+                Volume.
+              </div>
+              <div class="acc-row">
+                <strong>Platforms:</strong> Instagram Reels, TikTok, YouTube Creators.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer-actions">
+            <button class="btn btn-secondary btn-sm toggle-accordion-btn" data-target="accordion-influencer">
+              <span>View In-Depth Details</span>
+              <span class="acc-icon">▼</span>
+            </button>
+            <button class="btn btn-primary btn-sm book-service-btn" data-service-val="influencer_marketing"
+              data-service-title="Influencer Marketing">
+              <span>Book Strategy Call</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Process Workflow Section ("How We Deliver Growth") -->
+  <section class="services-process-section" id="process">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="section-tag">
+          <span>⚡</span> Growth Methodology
+        </div>
+        <h2>How We Deliver Exceptional Service Results</h2>
+        <p>A systematic, transparent process engineered to minimize risk and maximize campaign return.</p>
+      </div>
+
+      <div class="process-timeline-grid">
+
+        <div class="process-card fade-in-up">
+          <div class="process-num">01</div>
+          <h4>Discovery & Strategy Audit</h4>
+          <p>We analyze your current marketing stack, benchmark competitors, identify audience search intent, and
+            uncover your biggest revenue growth opportunities.</p>
+        </div>
+
+        <div class="process-card fade-in-up delay-1">
+          <div class="process-num">02</div>
+          <h4>Architecture & Asset Creation</h4>
+          <p>We craft high-converting ad copy, cinematic video creatives, landing page wireframes, and conversion
+            tracking infrastructure tailored to your brand.</p>
+        </div>
+
+        <div class="process-card fade-in-up delay-2">
+          <div class="process-num">03</div>
+          <h4>Execution & Live Monitoring</h4>
+          <p>We deploy campaigns across target channels, monitor real-time attribution data, and make continuous bid and
+            budget adjustments for optimal CAC.</p>
+        </div>
+
+        <div class="process-card fade-in-up delay-3">
+          <div class="process-num">04</div>
+          <h4>Data Scaling & ROI Domination</h4>
+          <p>We double down on winning creative variations, scale ad spend predictably, expand keyword reach, and
+            provide clear monthly revenue reports.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Metrics Bar
+  <section class="impact-metrics-section">
+    <div class="container">
+      <div class="impact-grid glass-stats-bar">
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-icon">⚡</span>
+            <h3 class="stat-number" data-target="10" data-suffix="x">0x</h3>
+          </div>
+          <p>Average Campaign ROI</p>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-icon">💰</span>
+            <h3 class="stat-number" data-target="45" data-prefix="$" data-suffix="M+">$0M+</h3>
+          </div>
+          <p>Client Revenue Scaled</p>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-icon">🎯</span>
+            <h3 class="stat-number" data-target="99.4" data-suffix="%">0%</h3>
+          </div>
+          <p>Client Retention Rate</p>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-header">
+            <span class="stat-icon">🏆</span>
+            <h3 class="stat-number" data-target="500" data-suffix="+">0+</h3>
+          </div>
+          <p>Campaigns Executed</p>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- Audit CTA & Contact Form -->
+  <section class="cta-audit" id="audit">
+    <div class="container">
+      <div class="cta-card">
+
+        <div class="cta-text">
+          <div class="section-tag">
+            <span>📩</span> Open for Enquiries
+          </div>
+          <h2>Ready to Scale Your Brand with LUMEO Services?</h2>
+          <p>Select your desired service or strategic growth goal below. Our team of performance directors will conduct
+            a free strategy audit and deliver a custom roadmap for your business within 24 hours.</p>
+
+          <ul class="cta-list">
+            <li>✨ Guaranteed Response Within 24 Hours</li>
+            <li>✨ Tailored Growth Strategy for Your Business</li>
+            <li>✨ Free Initial Consultation & Performance Audit</li>
+          </ul>
+        </div>
+
+        <form class="cta-form" id="auditForm" action="https://formsubmit.co/contact@lumeodigitalmedia.com" method="POST">
+          <input type="hidden" name="_subject" value="New Service Enquiry - LUMEO Digital Media">
+          <input type="hidden" name="_captcha" value="false">
+          <div class="form-group">
+            <input type="text" id="clientName" name="Full Name" placeholder="Your Full Name" required>
+          </div>
+
+          <div class="form-group">
+            <input type="email" id="clientEmail" name="Work Email" placeholder="Work Email Address" required>
+          </div>
+
+          <div class="form-group phone-input-container">
+            <select id="clientCountryCode" name="Country Code" class="country-code-select" required>
+              <option value="+91" selected>🇮🇳 +91</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+971">🇦🇪 +971</option>
+              <option value="+966">🇸🇦 +966</option>
+              <option value="+974">🇶🇦 +974</option>
+              <option value="+968">🇴🇲 +968</option>
+              <option value="+965">🇰🇼 +965</option>
+              <option value="+973">🇧🇭 +973</option>
+              <option value="+61">🇦🇺 +61</option>
+              <option value="+65">🇸🇬 +65</option>
+              <option value="+60">🇲🇾 +60</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+33">🇫🇷 +33</option>
+            </select>
+            <input type="tel" id="clientPhone" name="Mobile Number" placeholder="Mobile Number (e.g., 9876543210)" required pattern="[0-9]{7,15}">
+          </div>
+
+          <div class="form-group">
+            <select id="clientGoal" name="Selected Service" required>
+              <option value="" disabled selected>Select Service / Primary Growth Goal</option>
+              <option value="Meta Advertising (Facebook & Instagram)">Meta Advertising (Facebook & Instagram)</option>
+              <option value="Google Ads & Search Marketing">Google Ads & Search Marketing</option>
+              <option value="SEO & Search Engine Dominance">SEO & Search Engine Dominance</option>
+              <option value="Social Media Optimization (SMO)">Social Media Optimization (SMO)</option>
+              <option value="Video Production & Creative Media">Video Production & Creative Media</option>
+              <option value="Website & Landing Page Design">Website & Landing Page Design</option>
+              <option value="AI Contentology & Strategy">AI Contentology & Strategy</option>
+              <option value="Influencer Marketing">Influencer Marketing</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: var(--radius-md);">
+            <span>Submit Your Service Enquiry</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <img src="assets/logo.png" alt="LUMEO Digital Media Logo">
+            <div class="brand-title">LUMEO <span>Digital Media</span></div>
+          </a>
+          <p>Empowering market leaders with data-backed digital marketing, high-converting media, and predictable
+            revenue growth engines.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="why-us.html">Why Us</a></li>
+            <li><a href="#audit">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Our Capabilities</h4>
+          <ul class="footer-links">
+            <li><a href="#meta-advertising">Meta Advertising</a></li>
+            <li><a href="#google-ads">Google Ads</a></li>
+            <li><a href="#seo">SEO Optimization</a></li>
+            <li><a href="#smo">Social Media (SMO)</a></li>
+            <li><a href="#video-production">Video Production</a></li>
+            <li><a href="#website-design">Website Design</a></li>
+            <li><a href="#ai-contentology">AI Contentology</a></li>
+            <li><a href="#influencer-marketing">Influencer Marketing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Get In Touch</h4>
+          <ul class="footer-links">
+            <li>📍 Pattambi, Kerala, India</li>
+            <li>📧 contact@lumeodigitalmedia.com</li>
+            <li>📞 +1 (800) 586-3691</li>
+            <li>🕒 Mon - Fri: 8:00 AM - 6:00 PM EST</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 LUMEO Digital Media. All rights reserved. Designed with elegance in theme #F3E8FF.</p>
+        <p>Privacy Policy | Terms of Service | Security</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Quick Strategy Booking Modal -->
+  <div class="service-modal-overlay" id="serviceModalOverlay">
+    <div class="service-modal-card">
+      <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      <div class="modal-header">
+        <span class="modal-badge">⚡ Quick Strategy Request</span>
+        <h3 id="modalServiceTitle">Book Strategy Call</h3>
+        <p>Fill in your details to discuss <span id="modalServiceName"
+            style="color: #C084FC; font-weight: 700;">Service</span> with our growth experts.</p>
+      </div>
+      <form class="modal-form" id="modalForm" action="https://formsubmit.co/contact@lumeodigitalmedia.com" method="POST">
+        <input type="hidden" name="_subject" value="Quick Strategy Request - LUMEO Digital Media">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" id="modalServiceVal" name="Requested Service">
+        <div class="form-group">
+          <input type="text" id="modalClientName" name="Full Name" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" id="modalClientEmail" name="Work Email" placeholder="Work Email" required>
+        </div>
+        <div class="form-group phone-input-container">
+          <select id="modalCountryCode" name="Country Code" class="country-code-select" style="background: rgba(10, 5, 27, 0.8); color: #FFF; border-color: rgba(168, 85, 247, 0.3);" required>
+            <option value="+91" selected>🇮🇳 +91</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+971">🇦🇪 +971</option>
+            <option value="+966">🇸🇦 +966</option>
+            <option value="+974">🇶🇦 +974</option>
+            <option value="+968">🇴🇲 +968</option>
+            <option value="+965">🇰🇼 +965</option>
+            <option value="+973">🇧🇭 +973</option>
+            <option value="+61">🇦🇺 +61</option>
+            <option value="+65">🇸🇬 +65</option>
+            <option value="+60">🇲🇾 +60</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+33">🇫🇷 +33</option>
+          </select>
+          <input type="tel" id="modalClientPhone" name="Mobile Number" placeholder="Mobile Number" required pattern="[0-9]{7,15}">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          <span>Confirm Consultation Request</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification element -->
+  <div class="toast-msg" id="toastMsg">
+    <span style="font-size: 1.25rem;">✨</span>
+    <span class="toast-text">Notification message</span>
+  </div>
+
+  <!-- Pinned Floating WhatsApp Button -->
+  <a href="https://wa.me/918005863691?text=Hello%20LUMEO%20Digital%20Media!%20I'd%20like%20to%20enquire%20about%20your%20services."
+    class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+    <div class="whatsapp-pulse-ring"></div>
+    <span class="whatsapp-tooltip">💬 Chat with us on WhatsApp</span>
+    <svg viewBox="0 0 32 32">
+      <path
+        d="M16 0C7.163 0 0 7.163 0 16c0 2.825.738 5.48 2.025 7.775L0 32l8.425-2.025A15.936 15.936 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.306 22.869c-.35.981-1.744 1.8-2.4 1.913-.612.106-1.4.15-2.256-.125-.519-.169-1.188-.413-2.044-.781-3.6-1.556-5.944-5.213-6.125-5.456-.181-.244-1.469-1.956-1.469-3.731 0-1.775.925-2.65 1.256-3.006.331-.356.725-.444.969-.444.244 0 .488.006.7.012.225.006.525-.088.819.619.3.706 1.025 2.5 1.119 2.688.094.188.156.413.031.662-.125.25-.188.406-.375.625-.188.219-.394.488-.563.656-.188.188-.381.394-.163.769.219.375.969 1.6 2.081 2.594 1.431 1.275 2.638 1.669 3.013 1.856.375.188.594.156.813-.094.219-.25.938-1.094 1.188-1.469.25-.375.5-.313.844-.188.344.125 2.188 1.031 2.563 1.219.375.188.625.281.719.438.094.156.094.906-.256 1.887z" />
+    </svg>
+  </a>
+
+  <!-- JavaScript -->
+  <script src="js/script.js"></script>
+</body>
+
+</html>
