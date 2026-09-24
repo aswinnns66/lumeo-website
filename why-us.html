@@ -111,8 +111,8 @@
           <span>💡</span> What Makes Us Different
         </div>
         <h2>A Dedicated Partner for Your Growth</h2>
-        <p>We treat every client's business as if it were our own, giving your brand the attention and care it deserves.
-        </p>
+        <!-- <p>We treat every client's business as if it were our own, giving your brand the attention and care it deserves.
+        </p> -->
       </div>
 
       <div class="why-features-grid" style="grid-template-columns: repeat(2, 1fr);">
@@ -155,7 +155,7 @@
           <span>🛠️</span> How We Work
         </div>
         <h2>Simple, Effective Process</h2>
-        <p>A straightforward approach designed to get your digital marketing up and running without hassle.</p>
+        <!-- <p>A straightforward approach designed to get your digital marketing up and running without hassle.</p> -->
       </div>
 
       <div class="framework-grid" style="grid-template-columns: repeat(3, 1fr);">
@@ -202,7 +202,7 @@
             <li>✨ Comprehensive Paid Business Discovery & Audit</li>
           </ul>
 
-          <div class="cta-direct-info">
+          <!-- <div class="cta-direct-info">
             <div class="direct-item">
               <span class="direct-icon">📍</span>
               <div>
@@ -221,73 +221,59 @@
                 <strong>Call Us:</strong> +1 (800) 586-3691
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
 
-        <form class="audit-form" id="auditForm" action="https://formsubmit.co/contact@lumeodigitalmedia.com"
+        <form class="cta-form" id="auditForm" action="https://formsubmit.co/contact@lumeodigitalmedia.com"
           method="POST">
-          <input type="hidden" name="_subject" value="New Contact Enquiry - LUMEO Digital Media">
+          <input type="hidden" name="_subject" value="New Lead Enquiry - LUMEO Digital Media">
           <input type="hidden" name="_captcha" value="false">
-          <h3>Get In Touch</h3>
-          <p>Tell us a bit about your business and what you're looking to achieve.</p>
-
           <div class="form-group">
-            <label for="clientName">Your Name</label>
-            <input type="text" id="clientName" name="Full Name" placeholder="John Doe" required>
+            <input type="text" id="clientName" name="Full Name" placeholder="Your Full Name" required>
           </div>
 
           <div class="form-group">
-            <label for="clientEmail">Email Address</label>
-            <input type="email" id="clientEmail" name="Work Email" placeholder="john@company.com" required>
+            <input type="email" id="clientEmail" name="Work Email" placeholder="Work Email Address" required>
+          </div>
+
+          <div class="form-group phone-input-container">
+            <select id="clientCountryCode" name="Country Code" class="country-code-select" required>
+              <option value="+91" selected>🇮🇳 +91</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+971">🇦🇪 +971</option>
+              <option value="+966">🇸🇦 +966</option>
+              <option value="+974">🇶🇦 +974</option>
+              <option value="+968">🇴🇲 +968</option>
+              <option value="+965">🇰🇼 +965</option>
+              <option value="+973">🇧🇭 +973</option>
+              <option value="+61">🇦🇺 +61</option>
+              <option value="+65">🇸🇬 +65</option>
+              <option value="+60">🇲🇾 +60</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+33">🇫🇷 +33</option>
+            </select>
+            <input type="tel" id="clientPhone" name="Mobile Number" placeholder="Mobile Number (e.g., 9876543210)"
+              required pattern="[0-9]{7,15}">
           </div>
 
           <div class="form-group">
-            <label for="clientPhone">Mobile Number</label>
-            <div class="phone-input-container">
-              <select id="clientCountryCode" name="Country Code" class="country-code-select"
-                style="background: rgba(10, 5, 27, 0.8); color: #FFF; border-color: rgba(168, 85, 247, 0.3);" required>
-                <option value="+91" selected>🇮🇳 +91</option>
-                <option value="+1">🇺🇸 +1</option>
-                <option value="+44">🇬🇧 +44</option>
-                <option value="+971">🇦🇪 +971</option>
-                <option value="+966">🇸🇦 +966</option>
-                <option value="+974">🇶🇦 +974</option>
-                <option value="+968">🇴🇲 +968</option>
-                <option value="+965">🇰🇼 +965</option>
-                <option value="+973">🇧🇭 +973</option>
-                <option value="+61">🇦🇺 +61</option>
-                <option value="+65">🇸🇬 +65</option>
-                <option value="+60">🇲🇾 +60</option>
-                <option value="+49">🇩🇪 +49</option>
-                <option value="+33">🇫🇷 +33</option>
-              </select>
-              <input type="tel" id="clientPhone" name="Mobile Number" placeholder="Mobile Number" required
-                pattern="[0-9]{7,15}"
-                style="background: rgba(10, 5, 27, 0.8); color: #FFF; border-color: rgba(168, 85, 247, 0.3);">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="serviceNeeded">Service Required</label>
-            <select id="serviceNeeded" name="Service Required" required
-              style="width:100%; padding:0.88rem 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(168, 85, 247, 0.3); background: rgba(10, 5, 27, 0.8); color: #FFF;">
-              <option value="">Select a Service</option>
-              <option value="Social Media & Meta Ads">Social Media & Meta Ads</option>
-              <option value="Google Ads & Search">Google Ads & Search</option>
-              <option value="SEO & Local Visibility">SEO & Local Visibility</option>
-              <option value="Video & Content Creation">Video & Content Creation</option>
-              <option value="Website Design">Website Design</option>
+            <select id="clientGoal" name="Selected Service" required>
+              <option value="" disabled selected>Select Service / Primary Growth Goal</option>
+              <option value="Meta Advertising (Facebook & Instagram)">Meta Advertising (Facebook & Instagram)</option>
+              <option value="Google Ads & Search Marketing">Google Ads & Search Marketing</option>
+              <option value="SEO & Search Engine Dominance">SEO & Search Engine Dominance</option>
+              <option value="Social Media Optimization (SMO)">Social Media Optimization (SMO)</option>
+              <option value="Video Production & Creative Media">Video Production & Creative Media</option>
+              <option value="Website & Landing Page Design">Website & Landing Page Design</option>
+              <option value="AI Contentology & Strategy">AI Contentology & Strategy</option>
+              <option value="Influencer Marketing">Influencer Marketing</option>
             </select>
           </div>
 
-          <div class="form-group">
-            <label for="clientMessage">Your Message / Project Details</label>
-            <textarea id="clientMessage" name="Project Details" rows="3"
-              placeholder="How can we help your business?"></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: var(--radius-md);">
-            <span>Send Message</span>
+          <button type="submit" class="btn btn-primary" id="auditSubmitBtn"
+            style="width: 100%; border-radius: var(--radius-md);">
+            <span>Submit Your Enquiry</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
               stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7" />
@@ -338,8 +324,8 @@
         <div class="footer-col">
           <h4>Get In Touch</h4>
           <ul class="footer-links">
-            <li>📍 Pattambi, Kerala, India</li>
-            <li>📧 contact@lumeodigitalmedia.com</li>
+            <li>📍 Pattambi,Kerala, India</li>
+            <li>📧 lumeodigitalmedia@gmail.com</li>
             <li>📞 +91 81388 62745</li>
             <li>📞 +91 90484 80879</li>
             <li>🕒 Mon - Fri: 8:00 AM - 6:00 PM EST</li>
@@ -350,7 +336,7 @@
 
       <div class="footer-bottom">
         <p>© 2026 LUMEO Digital Media. All rights reserved.</p>
-        <p>Privacy Policy | Terms of Service</p>
+        <!-- <p>Privacy Policy | Terms of Service</p> -->
       </div>
     </div>
   </footer>

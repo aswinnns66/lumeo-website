@@ -1527,6 +1527,7 @@ h4,
 .cta-text h2 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  color: #1e1b4b;
 }
 
 .cta-text p {
@@ -4320,7 +4321,7 @@ transition: var(--transition);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: var(--radius-lg);
-  padding: 2.25rem 1.75rem;
+  padding: 0;
   text-align: center;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
@@ -4353,16 +4354,16 @@ transition: var(--transition);
 }
 
 .client-logo-card img {
-  max-width: 200px;
-  max-height: 200px;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  margin-bottom: 0.75rem;
-  filter: brightness(1.1) contrast(1.05);
   transition: transform 0.3s ease;
 }
 
 .client-logo-card:hover img {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 .client-logo-name {
@@ -4539,18 +4540,58 @@ transition: var(--transition);
   width: 320px;
   height: 185px;
   background: linear-gradient(155deg, rgba(28, 16, 56, 0.88) 0%, rgba(15, 8, 35, 0.95) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border: 1.5px solid rgba(168, 85, 247, 0.35);
   border-radius: 22px;
-  padding: 1.25rem 1.75rem;
+  padding: -15rem -10rem;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.22);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.65);
+}
+
+.client-logo-card.logo-bw {
+  background: #000000 !important;
+  background-image: none !important;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.client-logo-card.logo-e3 {
+  background: #ffffff !important;
+  background-image: none !important;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.client-logo-card.logo-cmb {
+  background: #ffffff !important;
+  background-image: none !important;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.client-logo-card.logo-samanwaya {
+  background: #1b4332 !important;
+  background-image: none !important;
+  border-color: rgba(27, 67, 50, 0.6);
+}
+
+.client-logo-card.logo-abrash {
+  background: #ffffff !important;
+  background-image: none !important;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.client-logo-card.logo-ambedkar {
+  background: #125d97 !important;
+  background-image: none !important;
+  border-color: rgba(18, 93, 151, 0.6);
+}
+
+.client-logo-card.logo-keraleats {
+  background: #ffffff !important;
+  background-image: none !important;
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .client-logo-card::before {
@@ -4567,29 +4608,25 @@ transition: var(--transition);
 }
 
 .client-logo-card:hover::before {
-  opacity: 1;
+  opacity: 0.3;
 }
 
 .client-logo-card:hover {
   transform: translateY(-8px) scale(1.05);
-  border-color: rgba(192, 132, 252, 0.75);
-  box-shadow: 0 25px 50px -10px rgba(147, 51, 234, 0.5), 0 0 35px rgba(168, 85, 247, 0.35);
-  background: linear-gradient(155deg, rgba(42, 22, 84, 0.96) 0%, rgba(22, 11, 52, 0.98) 100%);
+  box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.7);
 }
 
 .client-logo-img {
   max-width: 100%;
-  max-height: 155px;
+  max-height: 100%;
   width: auto;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.6));
-  transition: transform 0.4s ease, filter 0.4s ease;
+  transition: transform 0.4s ease;
 }
 
 .client-logo-card:hover .client-logo-img {
-  transform: scale(1.08);
-  filter: drop-shadow(0 10px 24px rgba(168, 85, 247, 0.7));
+  transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
@@ -4989,4 +5026,138 @@ iframe {
   .toast-msg.active {
     transform: translateY(0);
   }
+}
+
+/* ==========================================================================
+   DYNAMIC ANIMATIONS, HOVER EFFECTS & PARALLAX STYLING SYSTEM
+   ========================================================================== */
+
+/* Scroll Reveal Base Class */
+.reveal-element {
+  opacity: 0;
+  transform: translateY(35px) scale(0.97);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-element.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Floating Bob Animation for Decorative Icons & Badges */
+@keyframes floatBob {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.service-icon,
+.section-tag span,
+.quote-icon-badge {
+  animation: floatBob 4s ease-in-out infinite;
+}
+
+/* Card Hover Glow Sheen */
+.service-card,
+.service-detail-card,
+.work-card,
+.quote-card,
+.cta-card,
+.process-card,
+.why-card,
+.value-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+  will-change: transform, box-shadow;
+}
+
+.service-card:hover,
+.service-detail-card:hover,
+.work-card:hover,
+.why-card:hover,
+.value-card:hover {
+  border-color: rgba(192, 132, 252, 0.6) !important;
+  box-shadow: 0 20px 45px -10px rgba(147, 51, 234, 0.35), 0 0 30px rgba(168, 85, 247, 0.25) !important;
+}
+
+/* Shimmer Sweep on Buttons & CTA Cards */
+.btn-primary,
+.btn-secondary,
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after,
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: rotate(30deg);
+  transition: all 0.75s ease;
+}
+
+.btn-primary:hover::after,
+.btn-glow:hover::after {
+  left: 100%;
+}
+
+.btn-primary svg,
+.btn-secondary svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover svg,
+.btn-secondary:hover svg {
+  transform: translateX(5px) scale(1.1);
+}
+
+/* Navbar Link Animated Underline */
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #9333EA, #3B82F6);
+  border-radius: 2px;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Smooth Background Blobs Pulse */
+@keyframes blobPulse {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-20px, 15px);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.bg-ambient-blob {
+  animation: blobPulse 18s ease-in-out infinite alternate !important;
 }

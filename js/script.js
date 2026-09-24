@@ -609,6 +609,100 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 300);
     }
   }
+
+  // ==========================================================================
+  // 10. Scroll Reveal Animations (IntersectionObserver)
+  // ==========================================================================
+  const revealElements = document.querySelectorAll(
+    '.service-card, .service-detail-card, .work-card, .quote-card, .cta-card, .process-card, .stat-item, .section-header, .why-card, .value-card, .feature-card'
+  );
+
+  revealElements.forEach((el) => {
+    el.classList.add('reveal-element');
+    const parent = el.parentElement;
+    if (parent) {
+      const siblings = Array.from(parent.children);
+      const childIndex = siblings.indexOf(el);
+      if (childIndex >= 0) {
+        el.style.transitionDelay = `${(childIndex % 5) * 0.1}s`;
+      }
+    }
+  });
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  revealElements.forEach(el => revealObserver.observe(el));
+
+  // ==========================================================================
+  // 11. Multi-Layer Scroll Parallax
+  // ==========================================================================
+  const ambientBlobs = document.querySelectorAll('.bg-ambient-blob');
+  const heroVisual = document.querySelector('.hero-visual');
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+
+    // Background Blobs Parallax Shift
+    ambientBlobs.forEach((blob, i) => {
+      const speed = (i + 1) * 0.12;
+      blob.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+
+    // Hero Visual Parallax Depth
+    if (heroVisual && scrolled < 900) {
+      heroVisual.style.transform = `translateY(${scrolled * 0.15}px)`;
+    }
+  }, { passive: true });
+
+  // ==========================================================================
+  // 12. Interactive 3D Card Tilt Effect on Mouse Move
+  // ==========================================================================
+  const tiltableCards = document.querySelectorAll(
+    '.service-card, .service-detail-card, .work-card, .quote-card, .cta-card, .process-card, .why-card, .value-card'
+  );
+
+  tiltableCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -7;
+      const rotateY = ((x - centerX) / centerX) * 7;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale3d(1.02, 1.02, 1.02)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)`;
+    });
+  });
+
+  // ==========================================================================
+  // 13. Mouse Move Parallax for Floating Accents & Sparkles
+  // ==========================================================================
+  const sparkles = document.querySelectorAll('.diamond-sparkle, .quote-sparkle');
+  document.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX / window.innerWidth - 0.5;
+    const mouseY = e.clientY / window.innerHeight - 0.5;
+
+    sparkles.forEach((sparkle, i) => {
+      const factor = ((i % 3) + 1) * 12;
+      sparkle.style.transform = `translate(${mouseX * factor}px, ${mouseY * factor}px) rotate(${mouseX * 15}deg)`;
+    });
+  });
 });
 
 
