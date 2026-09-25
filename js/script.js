@@ -611,10 +611,128 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 10. Scroll Reveal Animations (IntersectionObserver)
+  // 10. LUMEO Creative Frontend Motion & Micro-Interaction Engine
   // ==========================================================================
+
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
+  // --------------------------------------------------------------------------
+  // A. Ambient Cursor Spotlight Trailing Accent (Desktop Only)
+  // --------------------------------------------------------------------------
+  if (!isReducedMotion && !isTouchDevice) {
+    const cursorGlow = document.createElement('div');
+    cursorGlow.id = 'ambientCursorGlow';
+    cursorGlow.className = 'ambient-cursor-glow';
+    document.body.appendChild(cursorGlow);
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let currentX = mouseX;
+    let currentY = mouseY;
+    let isVisible = false;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      if (!isVisible) {
+        isVisible = true;
+        cursorGlow.classList.add('active');
+      }
+    });
+
+    document.addEventListener('mouseleave', () => {
+      isVisible = false;
+      cursorGlow.classList.remove('active');
+    });
+
+    // Smooth Lerp Animation Loop for Cursor Accent
+    function animateCursorGlow() {
+      if (isVisible) {
+        currentX += (mouseX - currentX) * 0.50;
+        currentY += (mouseY - currentY) * 0.50;
+        cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+      }
+      requestAnimationFrame(animateCursorGlow);
+    }
+    animateCursorGlow();
+
+    // Hover Magnification over Interactive Elements
+    // const interactiveTargets = document.querySelectorAll(
+    //   'a, button, .btn, .service-card, .service-detail-card, .work-card, .why-card, .value-card, .cta-card, .process-card, .quote-card'
+    // );
+
+    // interactiveTargets.forEach(el => {
+    //   el.addEventListener('mouseenter', () => cursorGlow.classList.add('hovered'));
+    //   el.addEventListener('mouseleave', () => cursorGlow.classList.remove('hovered'));
+    // });
+  }
+
+  // --------------------------------------------------------------------------
+  // B. Magnetic Button Micro-Interactions
+  // --------------------------------------------------------------------------
+  if (!isReducedMotion && !isTouchDevice) {
+    const magneticBtns = document.querySelectorAll(
+      '.btn-primary, .btn-secondary, .btn-glow, .filter-btn, .work-filter-btn, .btn-preview-lightbox, .book-service-btn, .quote-nav-btn'
+    );
+
+    magneticBtns.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const deltaX = (e.clientX - centerX) * 0.32;
+        const deltaY = (e.clientY - centerY) * 0.32;
+
+        btn.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale3d(1.03, 1.03, 1.03)`;
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = `translate3d(0, 0, 0) scale3d(1, 1, 1)`;
+      });
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // C. Interactive Spotlight Coordinates & 3D Tilt for Glass Cards
+  // --------------------------------------------------------------------------
+  const tiltableCards = document.querySelectorAll(
+    '.service-card, .service-detail-card, .work-card, .quote-card, .cta-card, .process-card, .why-card, .value-card, .feature-card'
+  );
+
+  tiltableCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Update CSS variables for internal radial spotlight highlight
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+
+      if (!isReducedMotion && !isTouchDevice) {
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -6.5;
+        const rotateY = ((x - centerX) / centerX) * 6.5;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(0, -6px, 0) scale3d(1.02, 1.02, 1.02)`;
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      if (!isReducedMotion && !isTouchDevice) {
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0) scale3d(1, 1, 1)`;
+      }
+    });
+  });
+
+  // --------------------------------------------------------------------------
+  // D. Scroll Reveal Animations (IntersectionObserver System)
+  // --------------------------------------------------------------------------
   const revealElements = document.querySelectorAll(
-    '.service-card, .service-detail-card, .work-card, .quote-card, .cta-card, .process-card, .stat-item, .section-header, .why-card, .value-card, .feature-card'
+    '.service-card, .service-detail-card, .work-card, .quote-card, .cta-card, .process-card, .stat-item, .section-header, .why-card, .value-card, .feature-card, .matrix-card'
   );
 
   revealElements.forEach((el) => {
@@ -624,7 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const siblings = Array.from(parent.children);
       const childIndex = siblings.indexOf(el);
       if (childIndex >= 0) {
-        el.style.transitionDelay = `${(childIndex % 5) * 0.1}s`;
+        el.style.transitionDelay = `${(childIndex % 5) * 0.09}s`;
       }
     }
   });
@@ -636,73 +754,82 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, {
-    threshold: 0.12,
-    rootMargin: '0px 0px -40px 0px'
+    threshold: 0.1,
+    rootMargin: '0px 0px -30px 0px'
   });
 
   revealElements.forEach(el => revealObserver.observe(el));
 
-  // ==========================================================================
-  // 11. Multi-Layer Scroll Parallax
-  // ==========================================================================
+  // --------------------------------------------------------------------------
+  // E. Multi-Layer High-Performance Parallax Scroll Loop
+  // --------------------------------------------------------------------------
   const ambientBlobs = document.querySelectorAll('.bg-ambient-blob');
   const heroVisual = document.querySelector('.hero-visual');
+  const spacePlanets = document.querySelectorAll('.space-planet');
+  const navbar = document.querySelector('.navbar');
+
+  let latestScrollY = 0;
+  let ticking = false;
+
+  function updateParallax() {
+    // 1. Navbar Scroll Elevation State
+    if (navbar) {
+      if (latestScrollY > 35) {
+        navbar.classList.add('navbar-scrolled');
+      } else {
+        navbar.classList.remove('navbar-scrolled');
+      }
+    }
+
+    if (!isReducedMotion) {
+      // 2. Ambient Background Blobs Parallax Shift
+      ambientBlobs.forEach((blob, i) => {
+        const speed = (i + 1) * 0.12;
+        blob.style.transform = `translate3d(0, ${latestScrollY * speed}px, 0)`;
+      });
+
+      // 3. Hero Visual Depth Parallax
+      if (heroVisual && latestScrollY < 1000) {
+        heroVisual.style.transform = `translate3d(0, ${latestScrollY * 0.15}px, 0)`;
+      }
+
+      // 4. Floating Space Planets Parallax Depth
+      spacePlanets.forEach((planet, i) => {
+        const factor = (i % 2 === 0 ? 1 : -1) * (0.08 + (i * 0.04));
+        planet.style.transform = `translate3d(0, ${latestScrollY * factor}px, 0)`;
+      });
+    }
+
+    ticking = false;
+  }
 
   window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-
-    // Background Blobs Parallax Shift
-    ambientBlobs.forEach((blob, i) => {
-      const speed = (i + 1) * 0.12;
-      blob.style.transform = `translateY(${scrolled * speed}px)`;
-    });
-
-    // Hero Visual Parallax Depth
-    if (heroVisual && scrolled < 900) {
-      heroVisual.style.transform = `translateY(${scrolled * 0.15}px)`;
+    latestScrollY = window.pageYOffset;
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
     }
   }, { passive: true });
 
-  // ==========================================================================
-  // 12. Interactive 3D Card Tilt Effect on Mouse Move
-  // ==========================================================================
-  const tiltableCards = document.querySelectorAll(
-    '.service-card, .service-detail-card, .work-card, .quote-card, .cta-card, .process-card, .why-card, .value-card'
-  );
+  // Initial calculation call
+  updateParallax();
 
-  tiltableCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+  // --------------------------------------------------------------------------
+  // F. Mouse Move Ambient Parallax for Floating Accents & Sparkles
+  // --------------------------------------------------------------------------
+  if (!isReducedMotion && !isTouchDevice) {
+    const sparkles = document.querySelectorAll('.diamond-sparkle, .quote-sparkle');
+    document.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX / window.innerWidth - 0.5;
+      const mouseY = e.clientY / window.innerHeight - 0.5;
 
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const rotateX = ((y - centerY) / centerY) * -7;
-      const rotateY = ((x - centerX) / centerX) * 7;
-
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale3d(1.02, 1.02, 1.02)`;
+      sparkles.forEach((sparkle, i) => {
+        const factor = ((i % 3) + 1) * 14;
+        sparkle.style.transform = `translate3d(${mouseX * factor}px, ${mouseY * factor}px, 0) rotate(${mouseX * 15}deg)`;
+      });
     });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)`;
-    });
-  });
-
-  // ==========================================================================
-  // 13. Mouse Move Parallax for Floating Accents & Sparkles
-  // ==========================================================================
-  const sparkles = document.querySelectorAll('.diamond-sparkle, .quote-sparkle');
-  document.addEventListener('mousemove', (e) => {
-    const mouseX = e.clientX / window.innerWidth - 0.5;
-    const mouseY = e.clientY / window.innerHeight - 0.5;
-
-    sparkles.forEach((sparkle, i) => {
-      const factor = ((i % 3) + 1) * 12;
-      sparkle.style.transform = `translate(${mouseX * factor}px, ${mouseY * factor}px) rotate(${mouseX * 15}deg)`;
-    });
-  });
+  }
 });
+
 
 
