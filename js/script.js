@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initHeroCanvas();
 
-  // 7. Interactive 3D Card Tilt Effect
+  // 7. Interactive 3D Card Tilt & Astronaut Rotation Effect
   function initHeroTiltCard() {
     const tiltCard = document.getElementById('heroTiltCard');
     const heroSection = document.getElementById('hero');
@@ -342,13 +342,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     heroSection.addEventListener('mousemove', (e) => {
       const rect = tiltCard.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
+      const cardCenterX = rect.left + rect.width / 2;
+      const cardCenterY = rect.top + rect.height / 2;
 
-      const tiltX = (y / (rect.height / 2)) * -12;
-      const tiltY = (x / (rect.width / 2)) * 12;
+      // Vertical subtle tilt (-12deg to 12deg)
+      const y = e.clientY - cardCenterY;
+      const tiltX = Math.max(-12, Math.min(12, (y / (rect.height / 2)) * -12));
 
-      tiltCard.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+      // Horizontal rotation based on cursor movement towards left edge (max 180deg)
+      let rotateY = 0;
+      if (e.clientX < cardCenterX) {
+        // As cursor moves from astronaut position to left edge (e.clientX = 0), rotate up to 180deg
+        const leftRatio = Math.max(0, Math.min(1, (cardCenterX - e.clientX) / cardCenterX));
+        rotateY = leftRatio * -50;
+      } else {
+        // Subt.le tilt when cursor is to the right of the cutout
+        const rightMax = (window.innerWidth - cardCenterX) || 1;
+        const rightRatio = Math.max(0, Math.min(1, (e.clientX - cardCenterX) / rightMax));
+        rotateY = rightRatio * -50;
+      }
+
+      tiltCard.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
     });
 
     heroSection.addEventListener('mouseleave', () => {
@@ -510,6 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const videoWrappers = document.querySelectorAll('.video-media-wrapper');
   videoWrappers.forEach(wrapper => {
     const video = wrapper.querySelector('video');
+    const iframe = wrapper.querySelector('iframe');
     const overlay = wrapper.querySelector('.video-play-overlay');
 
     if (video && overlay) {
@@ -536,6 +551,18 @@ document.addEventListener('DOMContentLoaded', () => {
       video.addEventListener('ended', () => {
         overlay.style.opacity = '1';
         overlay.style.pointerEvents = 'auto';
+      });
+    }
+
+    if (iframe && overlay) {
+      overlay.addEventListener('click', () => {
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+        let src = iframe.getAttribute('src') || '';
+        if (src && !src.includes('autoplay=1')) {
+          src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
+          iframe.setAttribute('src', src);
+        }
       });
     }
   });

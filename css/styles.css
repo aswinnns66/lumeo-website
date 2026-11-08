@@ -3574,6 +3574,7 @@ transition: var(--transition);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2.5rem;
+  align-items: start;
 }
 
 .work-card {
@@ -3588,6 +3589,19 @@ transition: var(--transition);
   flex-direction: column;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+}
+
+.work-card-video {
+  align-self: start;
+  height: fit-content;
+}
+
+/* Centered Samanwaya Ad Video Feature Card */
+[data-id="work-video-3"] {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: 680px;
+  width: 100%;
 }
 
 .work-card:hover {
@@ -3620,7 +3634,7 @@ transition: var(--transition);
 
 .work-card-video .work-media-container {
   aspect-ratio: 16 / 9;
-  height: 380px;
+  height: auto;
 }
 
 .work-media-img {
@@ -3715,6 +3729,16 @@ transition: var(--transition);
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 20px;
+}
+
+.work-iframe-element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
   border-radius: 20px;
 }
 
