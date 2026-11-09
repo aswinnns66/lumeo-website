@@ -462,18 +462,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (serviceModalOverlay) {
         serviceModalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
       }
     });
   });
 
-  if (modalCloseBtn && serviceModalOverlay) {
-    modalCloseBtn.addEventListener('click', () => {
+  function closeServiceModal() {
+    if (serviceModalOverlay) {
       serviceModalOverlay.classList.remove('active');
-    });
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (modalCloseBtn && serviceModalOverlay) {
+    modalCloseBtn.addEventListener('click', closeServiceModal);
 
     serviceModalOverlay.addEventListener('click', (e) => {
       if (e.target === serviceModalOverlay) {
-        serviceModalOverlay.classList.remove('active');
+        closeServiceModal();
       }
     });
   }
@@ -486,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       showToast(`✨ Thank you, ${name}! Your consultation request for ${serviceName} has been received.`);
       modalForm.reset();
-      if (serviceModalOverlay) serviceModalOverlay.classList.remove('active');
+      closeServiceModal();
     });
   }
 
