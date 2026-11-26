@@ -129,9 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(heroStatsSection);
   }
 
-  // 4. Contact Form Email Submission Handler
-  // Set your target recipient email address here (e.g. your specific Gmail address)
-  const TARGET_GMAIL_ADDRESS = 'lumeodigitalmedia@gmail.com';
+  // 4. Google Sheets Lead Capture Form Handler
+  // Paste your deployed Google Apps Script Web App URL below (see google-apps-script/Code.gs)
+  const GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxgMUgvHxiSHwnS00IsqN6Uw85lAJ0Q-vkXebvzs7fzjBYbGLWDsLarKGIJ5sjKpV4Tyw/exec';
 
   const toast = document.getElementById('toastMsg');
 
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 5500);
   }
 
-  // Handle all contact forms across all pages (#auditForm, #modalForm, etc.)
+  // Handle all enquiry & strategy modal forms across all pages (#auditForm, #modalForm, etc.)
   const allContactForms = document.querySelectorAll('#auditForm, #modalForm, .cta-form, .audit-form, .modal-form');
 
   allContactForms.forEach(form => {
@@ -154,52 +154,91 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
-      const clientName = form.querySelector('#clientName, #modalClientName')?.value || 'Valued Client';
+      const clientName = form.querySelector('#clientName, #modalClientName')?.value.trim() || 'Valued Client';
+      const isModalForm = form.id === 'modalForm' || form.classList.contains('modal-form');
+
+      if (!GOOGLE_SHEET_WEB_APP_URL || GOOGLE_SHEET_WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL') {
+        console.warn('Google Sheet Web App URL is not configured in js/script.js (GOOGLE_SHEET_WEB_APP_URL).');
+        showToast('⚠️ Lead sheet endpoint not configured yet. Please set GOOGLE_SHEET_WEB_APP_URL in js/script.js.');
+        return;
+      }
 
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>⏳ Sending Email...</span>';
+        submitBtn.innerHTML = '<span>⏳ Submitting...</span>';
       }
 
-      // Extract form field values
+      // Extract and normalize form fields for clean Google Sheet columns
       const formData = new FormData(form);
-      const dataObj = {};
+      const payload = new URLSearchParams();
+      const rawData = {};
+
       formData.forEach((value, key) => {
-        dataObj[key] = value;
+        rawData[key] = typeof value === 'string' ? value.trim() : value;
       });
 
-      if (dataObj['Country Code'] && dataObj['Mobile Number']) {
-        dataObj['Full Mobile Number'] = `${dataObj['Country Code']} ${dataObj['Mobile Number']}`;
-      }
+      const fullMobile = rawData['Country Code'] && rawData['Mobile Number']
+        ? `${rawData['Country Code']} ${rawData['Mobile Number']}`
+        : (rawData['Mobile Number'] || '');
 
-      dataObj['_subject'] = dataObj['_subject'] || `New Lead Enquiry from ${clientName}`;
-      dataObj['_captcha'] = 'false';
+      const modalServiceLabel = isModalForm
+        ? (document.getElementById('modalServiceName')?.textContent?.trim() || rawData['Requested Service'] || '')
+        : '';
+
+      const selectedService = rawData['Selected Service'] || modalServiceLabel || rawData['Requested Service'] || '';
+
+      payload.set('Full Name', rawData['Full Name'] || '');
+      payload.set('Company Name', rawData['Company Name'] || '');
+      payload.set('Work Email', rawData['Work Email'] || '');
+      payload.set('Country Code', rawData['Country Code'] || '');
+      payload.set('Mobile Number', rawData['Mobile Number'] || '');
+      payload.set('Full Mobile Number', fullMobile);
+      payload.set('Selected Service', selectedService);
+      payload.set('Source Form', isModalForm ? 'Strategy Call Modal' : 'Website Enquiry Form');
+      payload.set('Page', window.location.pathname.split('/').pop() || 'index.html');
 
       try {
-        const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(TARGET_GMAIL_ADDRESS)}`, {
+        const response = await fetch(GOOGLE_SHEET_WEB_APP_URL, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
           },
-          body: JSON.stringify(dataObj)
+          body: payload.toString()
         });
 
+        let isSuccess = response.ok;
         if (response.ok) {
-          showToast(`📩 Thank you, ${clientName}! Your enquiry has been sent directly to ${TARGET_GMAIL_ADDRESS}.`);
+          try {
+            const result = await response.json();
+            if (result && result.status === 'error') {
+              isSuccess = false;
+            }
+          } catch (_) {
+            // Non-JSON 200 response from Apps Script still indicates delivery
+          }
+        }
+
+        if (isSuccess) {
+          showToast(
+            isModalForm
+              ? `✨ Thank you, ${clientName}! Your consultation request for ${selectedService || 'our services'} has been saved.`
+              : `✅ Thank you, ${clientName}! Your enquiry has been received and our team will contact you within 24 hours.`
+          );
           form.reset();
 
-          const modalOverlay = document.getElementById('strategyModal');
-          if (modalOverlay) modalOverlay.classList.remove('active');
+          if (isModalForm) {
+            const serviceOverlay = document.getElementById('serviceModalOverlay');
+            if (serviceOverlay) {
+              serviceOverlay.classList.remove('active');
+              document.body.style.overflow = '';
+            }
+          }
         } else {
-          // If response not ok, submit form directly
-          form.action = `https://formsubmit.co/${encodeURIComponent(TARGET_GMAIL_ADDRESS)}`;
-          form.submit();
+          showToast('⚠️ Could not submit right now. Please try again or reach us on WhatsApp.');
         }
       } catch (err) {
-        console.warn('Network error during form submission, submitting via standard POST:', err);
-        form.action = `https://formsubmit.co/${encodeURIComponent(TARGET_GMAIL_ADDRESS)}`;
-        form.submit();
+        console.error('Google Sheets submission failed:', err);
+        showToast('⚠️ Network error while submitting. Please try again or reach us on WhatsApp.');
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -551,18 +590,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target === serviceModalOverlay) {
         closeServiceModal();
       }
-    });
-  }
-
-  if (modalForm) {
-    modalForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('modalClientName')?.value || 'Valued Client';
-      const serviceName = modalServiceName ? modalServiceName.textContent : 'Service';
-
-      showToast(`✨ Thank you, ${name}! Your consultation request for ${serviceName} has been received.`);
-      modalForm.reset();
-      closeServiceModal();
     });
   }
 
