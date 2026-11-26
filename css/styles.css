@@ -55,6 +55,8 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -63,7 +65,31 @@ body {
   font-family: var(--font-main);
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Eliminate 300ms mobile tap delay & tap flash highlights */
+a,
+button,
+input,
+select,
+textarea,
+.btn,
+.client-logo-card,
+.mobile-menu-btn,
+.filter-btn,
+.work-filter-btn,
+.toggle-accordion-btn,
+.book-service-btn,
+.btn-preview-lightbox,
+.quote-nav-btn,
+.whatsapp-float,
+.planet-node,
+.planet {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Background Animated Gradient Blobs */
@@ -101,15 +127,15 @@ body {
 
 @keyframes floatBlob {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
   50% {
-    transform: translate(60px, 40px) scale(1.1);
+    transform: translate3d(60px, 40px, 0) scale(1.1);
   }
 
   100% {
-    transform: translate(-40px, 80px) scale(0.95);
+    transform: translate3d(-40px, 80px, 0) scale(0.95);
   }
 }
 
@@ -302,6 +328,7 @@ h4,
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -351,12 +378,12 @@ h4,
 
 @keyframes purpleMoonGlow {
   0% {
-    transform: scale(1) translate(0, 0);
+    transform: scale(1) translate3d(0, 0, 0);
     opacity: 0.6;
   }
 
   100% {
-    transform: scale(1.12) translate(-20px, 15px);
+    transform: scale(1.12) translate3d(-20px, 15px, 0);
     opacity: 0.85;
   }
 }
@@ -467,43 +494,43 @@ h4,
 
 @keyframes orbitMotion1 {
   0% {
-    transform: translate(0, 0) scale(1) rotate(0deg);
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
   }
 
   50% {
-    transform: translate(-50px, 35px) scale(1.06) rotate(180deg);
+    transform: translate3d(-50px, 35px, 0) scale(1.06) rotate(180deg);
   }
 
   100% {
-    transform: translate(0, 0) scale(1) rotate(360deg);
+    transform: translate3d(0, 0, 0) scale(1) rotate(360deg);
   }
 }
 
 @keyframes orbitMotion2 {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
   50% {
-    transform: translate(45px, -30px) scale(0.92);
+    transform: translate3d(45px, -30px, 0) scale(0.92);
   }
 
   100% {
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
 @keyframes orbitMotion3 {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
   50% {
-    transform: translate(-25px, -18px) scale(1.12);
+    transform: translate3d(-25px, -18px, 0) scale(1.12);
   }
 
   100% {
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
@@ -544,25 +571,38 @@ h4,
 }
 
 .tag-pulse-dot {
+  position: relative;
   width: 10px;
   height: 10px;
   background-color: #22C55E;
   border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
-  animation: pulseDot 2s infinite;
+}
+
+.tag-pulse-dot::after,
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: rgba(34, 197, 94, 0.65);
+  animation: pulseDot 2s infinite ease-out;
+  pointer-events: none;
 }
 
 @keyframes pulseDot {
   0% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    transform: scale3d(1, 1, 1);
+    opacity: 0.8;
   }
 
   70% {
-    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+    transform: scale3d(2.2, 2.2, 1);
+    opacity: 0;
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    transform: scale3d(2.2, 2.2, 1);
+    opacity: 0;
   }
 }
 
@@ -718,6 +758,9 @@ h4,
   border: none !important;
   box-shadow: none !important;
   animation: zeroGravityFloat 7s ease-in-out infinite alternate;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .astronaut-img {
@@ -812,15 +855,15 @@ h4,
 
 @keyframes zeroGravityFloat {
   0% {
-    transform: translateY(0) rotate(0deg);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
 
   50% {
-    transform: translateY(-18px) rotate(2deg);
+    transform: translate3d(0, -18px, 0) rotate(2deg);
   }
 
   100% {
-    transform: translateY(10px) rotate(-1.5deg);
+    transform: translate3d(0, 10px, 0) rotate(-1.5deg);
   }
 }
 
@@ -908,12 +951,12 @@ h4,
 }
 
 .pulse-dot {
+  position: relative;
   width: 6px;
   height: 6px;
   background-color: #10B981;
   border-radius: 50%;
   display: inline-block;
-  animation: pulseDot 1.5s infinite;
 }
 
 /* Badge Floating Animations */
@@ -935,11 +978,11 @@ h4,
 
   0%,
   100% {
-    transform: translateY(0) rotate(0deg);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
 
   50% {
-    transform: translateY(-12px) rotate(1.5deg);
+    transform: translate3d(0, -12px, 0) rotate(1.5deg);
   }
 }
 
@@ -947,11 +990,11 @@ h4,
 
   0%,
   100% {
-    transform: translateY(0) rotate(0deg);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
 
   50% {
-    transform: translateY(10px) rotate(-1.5deg);
+    transform: translate3d(0, 10px, 0) rotate(-1.5deg);
   }
 }
 
@@ -959,22 +1002,22 @@ h4,
 
   0%,
   100% {
-    transform: translateX(0) translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 
   50% {
-    transform: translateX(-8px) translateY(-8px);
+    transform: translate3d(-8px, -8px, 0);
   }
 }
 
 @keyframes pulseGlow {
   0% {
-    transform: scale(1) translate(0, 0);
+    transform: scale(1) translate3d(0, 0, 0);
     opacity: 0.4;
   }
 
   100% {
-    transform: scale(1.2) translate(-30px, 20px);
+    transform: scale(1.2) translate3d(-30px, 20px, 0);
     opacity: 0.7;
   }
 }
@@ -982,7 +1025,7 @@ h4,
 /* Staggered Fade In Animations */
 .fade-in-up {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translate3d(0, 30px, 0);
   animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
@@ -993,7 +1036,7 @@ h4,
 @keyframes fadeInUp {
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -3300,13 +3343,13 @@ footer {
 
 @keyframes sunPulse {
   0% {
-    transform: scale(1);
-    box-shadow: 0 0 60px #F59E0B, 0 0 120px rgba(245, 158, 11, 0.8);
+    transform: scale3d(1, 1, 1);
+    opacity: 0.92;
   }
 
   100% {
-    transform: scale(1.06);
-    box-shadow: 0 0 85px #FDE047, 0 0 160px rgba(245, 158, 11, 0.95);
+    transform: scale3d(1.06, 1.06, 1);
+    opacity: 1;
   }
 }
 
@@ -3995,6 +4038,7 @@ footer {
 .lightbox-media-box {
   width: 100%;
   max-height: 82vh;
+  max-height: 82dvh;
   background: #000000;
   display: flex;
   align-items: center;
@@ -4007,6 +4051,7 @@ footer {
 .lightbox-media-box video {
   max-width: 100%;
   max-height: 80vh;
+  max-height: 80dvh;
   object-fit: contain;
   border-radius: 12px;
 }
@@ -4537,6 +4582,8 @@ footer {
   width: max-content;
   animation: logoMarqueeScroll 28s linear infinite;
   will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .client-marquee-container:hover .client-marquee-track {
@@ -4568,6 +4615,8 @@ footer {
   position: relative;
   overflow: hidden;
   box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.65);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .client-logo-card.logo-bw {
@@ -5408,15 +5457,15 @@ iframe {
 /* 3. Multi-Layer Scroll Parallax & Ambient Blobs Pulse */
 @keyframes blobPulse {
   0% {
-    transform: scale(1) translate(0, 0);
+    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
   }
 
   50% {
-    transform: scale(1.08) translate(-25px, 20px);
+    transform: scale3d(1.08, 1.08, 1) translate3d(-25px, 20px, 0);
   }
 
   100% {
-    transform: scale(1) translate(0, 0);
+    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
   }
 }
 
@@ -5665,12 +5714,18 @@ iframe {
 
 /* 10. Mobile GPU & 60 FPS Scroll Performance Optimizations */
 @media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
   body,
   .hero {
     background-attachment: scroll;
   }
 
-  /* Reduce full-viewport filter blur rasterization cost on mid-tier mobile GPUs */
+  /* Disable live backdrop-filter blur and heavy multi-layer glows on mobile GPUs */
   .bg-ambient-blob {
     filter: blur(45px);
     animation: none !important;
@@ -5681,28 +5736,90 @@ iframe {
     filter: blur(45px);
   }
 
-  .nav-container {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  .nav-container,
+  .navbar.navbar-scrolled .nav-container {
+    background: rgba(15, 15, 25, 0.94) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4) !important;
   }
 
+  .quote-card-centered,
   .service-card,
   .service-detail-card,
   .work-card,
   .quote-card,
-  .cta-card,
   .process-card,
   .why-card,
   .value-card,
-  .feature-card {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  .feature-card,
+  .framework-card,
+  .why-feature-card,
+  .comparison-table-wrapper,
+  .services-search-wrapper input,
+  .glass-stats-bar,
+  .service-modal-card,
+  .work-lightbox-overlay,
+  .service-modal-overlay,
+  .work-media-overlay,
+  .work-type-badge,
+  .planet-tooltip,
+  .whatsapp-tooltip,
+  .quote-nav-btn,
+  .filter-btn,
+  .work-filter-btn {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
-  .astronaut-img {
-    filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.65)) contrast(1.12) brightness(1.06);
+  .quote-card-centered,
+  .service-card,
+  .service-detail-card,
+  .work-card,
+  .quote-card,
+  .process-card,
+  .why-card,
+  .value-card,
+  .feature-card,
+  .framework-card,
+  .why-feature-card,
+  .comparison-table-wrapper,
+  .services-search-wrapper input {
+    background: rgba(15, 15, 25, 0.92);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  }
+
+  .cta-card,
+  .btn-secondary,
+  .hero-pill-tag,
+  .hero-badge-floating {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 0 8px 20px rgba(88, 28, 135, 0.12);
+  }
+
+  /* Remove drop-shadow filters and background-position repaints on scrolling elements */
+  .brand-logo img,
+  .brand-logo:hover img,
+  .animated-gradient-text,
+  .astronaut-img,
+  .astronaut-sticker-wrapper:hover .astronaut-img {
+    filter: none !important;
+  }
+
+  .text-gradient,
+  .animated-gradient-text,
+  .planet-body {
+    animation: none;
+  }
+
+  .diamond-sparkle {
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.6);
+  }
+
+  .whatsapp-float {
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
   }
 }
 

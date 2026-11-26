@@ -879,8 +879,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -30px 0px'
+    threshold: 0.05,
+    rootMargin: '0px 0px 80px 0px'
   });
 
   revealElements.forEach(el => revealObserver.observe(el));
@@ -895,17 +895,20 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollSentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:35px;pointer-events:none;opacity:0;';
     document.body.prepend(scrollSentinel);
 
-    const navObserver = new IntersectionObserver((entries) => {
-      navbar.classList.toggle('navbar-scrolled', !entries[0].isIntersecting);
-    }, { threshold: 0 });
-    navObserver.observe(scrollSentinel);
+    if ('IntersectionObserver' in window) {
+      const navObserver = new IntersectionObserver((entries) => {
+        navbar.classList.toggle('navbar-scrolled', !entries[0].isIntersecting);
+      }, { threshold: 0 });
+      navObserver.observe(scrollSentinel);
+    }
   }
 
   const ambientBlobs = document.querySelectorAll('.bg-ambient-blob');
   const heroVisual = document.querySelector('.hero-visual');
   const spacePlanets = document.querySelectorAll('.space-planet');
+  const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
 
-  if (!isReducedMotion && !isTouchDevice && window.innerWidth > 768) {
+  if (!isReducedMotion && !isTouchDevice && !isMobileViewport) {
     let latestScrollY = window.scrollY || window.pageYOffset;
     let ticking = false;
     let isHeroVisualVisible = true;
@@ -913,7 +916,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroVisual && 'IntersectionObserver' in window) {
       const heroObserver = new IntersectionObserver((entries) => {
         isHeroVisualVisible = entries[0].isIntersecting;
-      }, { threshold: 0 });
+      }, { rootMargin: '120px 0px 120px 0px', threshold: 0 });
       heroObserver.observe(heroVisual);
     }
 
