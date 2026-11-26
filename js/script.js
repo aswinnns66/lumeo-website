@@ -198,15 +198,17 @@ document.addEventListener('DOMContentLoaded', () => {
       payload.set('Page', window.location.pathname.split('/').pop() || 'index.html');
 
       try {
+        const isFileProtocol = window.location.protocol === 'file:';
         const response = await fetch(GOOGLE_SHEET_WEB_APP_URL, {
           method: 'POST',
+          mode: isFileProtocol ? 'no-cors' : 'cors',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
           },
           body: payload.toString()
         });
 
-        let isSuccess = response.ok;
+        let isSuccess = response.ok || (isFileProtocol && response.type === 'opaque');
         if (response.ok) {
           try {
             const result = await response.json();
