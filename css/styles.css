@@ -4327,9 +4327,92 @@ footer {
   line-height: 1.65;
 }
 
-/* Responsive Media Queries for Why Us */
+/* About Us Section & Card Layout Helpers (Desktop Preserved, Mobile Compact) */
+.about-section-sm {
+  padding: 3rem 0 4rem;
+}
+
+.about-section-md {
+  padding: 4rem 0;
+}
+
+.about-section-lg {
+  padding: 4rem 0 5rem;
+}
+
+.about-section-trust {
+  padding: 4rem 0;
+  background: rgba(10, 5, 27, 0.6);
+}
+
+.about-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.about-grid-2-tight {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+}
+
+.about-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.about-mission-card {
+  background: rgba(20, 10, 45, 0.7);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+}
+
+.about-mission-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-card-tag {
+  margin-bottom: 0.75rem;
+}
+
+.about-mission-card h3 {
+  font-size: 1.6rem;
+  color: #FFFFFF;
+  margin-bottom: 1rem;
+}
+
+.about-mission-card p {
+  color: #CBD5E1;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.about-compact-card {
+  padding: 2rem;
+}
+
+.about-compact-card h3 {
+  font-size: 1.25rem;
+}
+
+.about-philosophy-sub {
+  max-width: 800px;
+  margin: 0 auto 2.5rem;
+  color: #E2E8F0;
+  font-size: 1.1rem;
+}
+
+.about-trust-sub {
+  color: #CBD5E1;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+/* Responsive Media Queries for Why Us & About Us */
 @media (max-width: 1024px) {
-  .framework-grid {
+  .framework-grid,
+  .about-grid-3 {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -4339,16 +4422,88 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .why-hero-section {
+    padding: 6.25rem 0 2.5rem;
+  }
+
   .why-hero-title {
-    font-size: 2.4rem;
+    font-size: 2.15rem;
+    margin: 0.85rem 0;
   }
 
-  .framework-grid {
-    grid-template-columns: 1fr;
+  .why-hero-subtitle {
+    font-size: 0.98rem;
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
   }
 
-  .why-features-grid {
+  .about-section-sm,
+  .about-section-md,
+  .about-section-lg,
+  .about-section-trust,
+  .why-framework-section {
+    padding: 2.25rem 0;
+  }
+
+  .framework-grid,
+  .why-features-grid,
+  .about-grid-2,
+  .about-grid-2-tight,
+  .about-grid-3 {
     grid-template-columns: 1fr;
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+  }
+
+  /* Cleaner, shorter mobile cards on About Us */
+  .why-feature-card,
+  .about-mission-card,
+  .about-compact-card,
+  .framework-card {
+    padding: 1.15rem 1.2rem;
+    border-radius: 16px;
+  }
+
+  .why-feature-icon,
+  .about-mission-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    margin-bottom: 0.65rem;
+    border-radius: 10px;
+  }
+
+  .about-card-tag {
+    margin-bottom: 0.45rem;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.72rem;
+  }
+
+  .framework-step {
+    width: 34px;
+    height: 34px;
+    font-size: 0.88rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .why-feature-card h3,
+  .about-mission-card h3,
+  .about-compact-card h3,
+  .framework-card h4 {
+    font-size: 1.12rem;
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+  }
+
+  .why-feature-card p,
+  .about-mission-card p,
+  .framework-card p {
+    font-size: 0.88rem;
+    line-height: 1.48;
+  }
+
+  .about-philosophy-sub {
+    margin-bottom: 1rem;
   }
 
   .comparison-table th,
@@ -5358,20 +5513,64 @@ iframe {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   footer {
-    padding: 3.5rem 0 1.5rem 0;
+    text-align: center;
   }
 
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-brand .brand-logo {
+    justify-content: center;
+  }
+
+  .footer-brand p {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .footer-col {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-links {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-links a:hover {
+    padding-left: 0;
   }
 
   .footer-bottom {
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 0.75rem;
     text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  footer {
+    padding: 3.5rem 0 1.5rem 0;
   }
 }
 
