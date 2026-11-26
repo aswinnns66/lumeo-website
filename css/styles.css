@@ -4545,11 +4545,11 @@ footer {
 
 @keyframes logoMarqueeScroll {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -4564,7 +4564,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
   position: relative;
   overflow: hidden;
   box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.65);
@@ -4648,10 +4648,22 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .client-marquee-container {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
   .client-logo-card {
     width: 240px;
     height: 140px;
     padding: 1rem;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  .client-logo-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
   }
 
   .client-logo-img {
@@ -5424,6 +5436,7 @@ iframe {
 .reveal-element.revealed {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
+  will-change: auto;
 }
 
 .reveal-scale {
@@ -5495,7 +5508,6 @@ iframe {
   position: relative;
   overflow: hidden;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
-  will-change: transform, box-shadow;
 }
 
 /* Mouse-tracking Radial Spotlight Layer inside Cards */
@@ -5556,7 +5568,6 @@ iframe {
 .quote-nav-btn {
   position: relative;
   overflow: hidden;
-  will-change: transform;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
 }
 
@@ -5573,7 +5584,7 @@ iframe {
   height: 200%;
   background: linear-gradient(60deg, transparent 30%, rgba(255, 255, 255, 0.38) 50%, transparent 70%);
   transform: rotate(30deg);
-  transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: left 0.75s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
 }
 
@@ -5610,7 +5621,6 @@ iframe {
 .brand-logo img,
 .quote-author-avatar img {
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
-  will-change: transform;
 }
 
 .work-card:hover .work-media-container img,
@@ -5653,7 +5663,50 @@ iframe {
   width: 100%;
 }
 
-/* 10. Accessibility & Reduced Motion Preferences */
+/* 10. Mobile GPU & 60 FPS Scroll Performance Optimizations */
+@media (max-width: 768px) {
+  body,
+  .hero {
+    background-attachment: scroll;
+  }
+
+  /* Reduce full-viewport filter blur rasterization cost on mid-tier mobile GPUs */
+  .bg-ambient-blob {
+    filter: blur(45px);
+    animation: none !important;
+    will-change: auto;
+  }
+
+  .hero-bg-glow {
+    filter: blur(45px);
+  }
+
+  .nav-container {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .service-card,
+  .service-detail-card,
+  .work-card,
+  .quote-card,
+  .cta-card,
+  .process-card,
+  .why-card,
+  .value-card,
+  .feature-card {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .astronaut-img {
+    filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.65)) contrast(1.12) brightness(1.06);
+  }
+}
+
+/* 11. Accessibility & Reduced Motion Preferences */
 @media (prefers-reduced-motion: reduce) {
 
   *,

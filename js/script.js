@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         runCounters();
+        observer.disconnect();
       }
     }, { threshold: 0.5 });
     observer.observe(heroStatsSection);
@@ -210,23 +211,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
   // 6. Interactive Cosmic Space Canvas & Starfield
   function initHeroCanvas() {
     const canvas = document.getElementById('heroCanvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     let width = (canvas.width = canvas.offsetWidth);
     let height = (canvas.height = canvas.offsetHeight);
+    let resizeRaf = null;
 
     window.addEventListener('resize', () => {
-      if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
-    });
+      if (resizeRaf) return;
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = null;
+        if (!canvas) return;
+        width = canvas.width = canvas.offsetWidth;
+        height = canvas.height = canvas.offsetHeight;
+      });
+    }, { passive: true });
 
+    const isMobileCanvas = isTouchDevice || window.innerWidth <= 768;
     const particles = [];
-    const particleCount = 70;
+    const particleCount = isMobileCanvas ? 24 : 70;
+    const useShadowBlur = !isMobileCanvas;
 
     class StarParticle {
       constructor() {
@@ -259,11 +271,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (this.y < 0) this.y = height;
         if (this.y > height) this.y = 0;
 
-        if (mouse.x) {
+        if (mouse.x !== null) {
           const dx = mouse.x - this.x;
           const dy = mouse.y - this.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 140) {
+          if (dist < 140 && dist > 0) {
             this.x -= (dx / dist) * 1.8;
             this.y -= (dy / dist) * 1.8;
           }
@@ -274,8 +286,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = `${this.color}${this.alpha})`;
-        ctx.shadowBlur = this.radius > 1.8 ? 12 : 4;
-        ctx.shadowColor = 'rgba(192, 132, 252, 0.8)';
+        if (useShadowBlur) {
+          ctx.shadowBlur = this.radius > 1.8 ? 12 : 4;
+          ctx.shadowColor = 'rgba(192, 132, 252, 0.8)';
+        }
         ctx.fill();
       }
     }
@@ -287,12 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const mouse = { x: null, y: null };
     const heroSection = document.getElementById('hero');
 
-    if (heroSection) {
+    if (heroSection && !isTouchDevice) {
       heroSection.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
         mouse.x = e.clientX - rect.left;
         mouse.y = e.clientY - rect.top;
-      });
+      }, { passive: true });
 
       heroSection.addEventListener('mouseleave', () => {
         mouse.x = null;
@@ -300,7 +314,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    function animate() {
+    let isCanvasVisible = true;
+    let animFrameId = null;
+
+    function drawFrame() {
       ctx.clearRect(0, 0, width, height);
 
       // Draw faint constellation connections
@@ -308,9 +325,10 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < 110) {
+          if (distSq < 12100) {
+            const dist = Math.sqrt(distSq);
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -321,51 +339,103 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      particles.forEach(p => {
-        p.update(mouse);
-        p.draw();
-      });
-
-      requestAnimationFrame(animate);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update(mouse);
+        particles[i].draw();
+      }
     }
 
-    animate();
+    function animate() {
+      if (!isCanvasVisible || document.hidden || isReducedMotion) {
+        animFrameId = null;
+        return;
+      }
+      drawFrame();
+      animFrameId = requestAnimationFrame(animate);
+    }
+
+    function startCanvasLoop() {
+      if (isReducedMotion) {
+        drawFrame();
+        return;
+      }
+      if (!animFrameId && isCanvasVisible && !document.hidden) {
+        animFrameId = requestAnimationFrame(animate);
+      }
+    }
+
+    if ('IntersectionObserver' in window) {
+      const canvasObserver = new IntersectionObserver((entries) => {
+        isCanvasVisible = entries[0].isIntersecting;
+        if (isCanvasVisible) {
+          startCanvasLoop();
+        } else if (animFrameId) {
+          cancelAnimationFrame(animFrameId);
+          animFrameId = null;
+        }
+      }, { threshold: 0.05 });
+      canvasObserver.observe(canvas);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+      } else if (!document.hidden && isCanvasVisible) {
+        startCanvasLoop();
+      }
+    });
+
+    startCanvasLoop();
   }
 
   initHeroCanvas();
 
-  // 7. Interactive 3D Card Tilt & Astronaut Rotation Effect
+  // 7. Interactive 3D Card Tilt & Astronaut Rotation Effect (Desktop Only)
   function initHeroTiltCard() {
     const tiltCard = document.getElementById('heroTiltCard');
     const heroSection = document.getElementById('hero');
-    if (!tiltCard || !heroSection) return;
+    if (!tiltCard || !heroSection || isReducedMotion || isTouchDevice) return;
+
+    let tiltRaf = null;
+    let lastClientX = 0;
+    let lastClientY = 0;
 
     heroSection.addEventListener('mousemove', (e) => {
-      const rect = tiltCard.getBoundingClientRect();
-      const cardCenterX = rect.left + rect.width / 2;
-      const cardCenterY = rect.top + rect.height / 2;
+      lastClientX = e.clientX;
+      lastClientY = e.clientY;
+      if (tiltRaf) return;
 
-      // Vertical subtle tilt (-12deg to 12deg)
-      const y = e.clientY - cardCenterY;
-      const tiltX = Math.max(-12, Math.min(12, (y / (rect.height / 2)) * -12));
+      tiltRaf = requestAnimationFrame(() => {
+        tiltRaf = null;
+        const rect = tiltCard.getBoundingClientRect();
+        const cardCenterX = rect.left + rect.width / 2;
+        const cardCenterY = rect.top + rect.height / 2;
 
-      // Horizontal rotation based on cursor movement towards left edge (max 180deg)
-      let rotateY = 0;
-      if (e.clientX < cardCenterX) {
-        // As cursor moves from astronaut position to left edge (e.clientX = 0), rotate up to 180deg
-        const leftRatio = Math.max(0, Math.min(1, (cardCenterX - e.clientX) / cardCenterX));
-        rotateY = leftRatio * -50;
-      } else {
-        // Subt.le tilt when cursor is to the right of the cutout
-        const rightMax = (window.innerWidth - cardCenterX) || 1;
-        const rightRatio = Math.max(0, Math.min(1, (e.clientX - cardCenterX) / rightMax));
-        rotateY = rightRatio * -50;
-      }
+        // Vertical subtle tilt (-12deg to 12deg)
+        const y = lastClientY - cardCenterY;
+        const tiltX = Math.max(-12, Math.min(12, (y / (rect.height / 2)) * -12));
 
-      tiltCard.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
+        // Horizontal rotation based on cursor movement towards left edge
+        let rotateY = 0;
+        if (lastClientX < cardCenterX) {
+          const leftRatio = Math.max(0, Math.min(1, (cardCenterX - lastClientX) / cardCenterX));
+          rotateY = leftRatio * -50;
+        } else {
+          const rightMax = (window.innerWidth - cardCenterX) || 1;
+          const rightRatio = Math.max(0, Math.min(1, (lastClientX - cardCenterX) / rightMax));
+          rotateY = rightRatio * -50;
+        }
+
+        tiltCard.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+    }, { passive: true });
 
     heroSection.addEventListener('mouseleave', () => {
+      if (tiltRaf) {
+        cancelAnimationFrame(tiltRaf);
+        tiltRaf = null;
+      }
       tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
     });
   }
@@ -647,9 +717,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 10. LUMEO Creative Frontend Motion & Micro-Interaction Engine
   // ==========================================================================
 
-  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-
   // --------------------------------------------------------------------------
   // A. Ambient Cursor Spotlight Trailing Accent (Desktop Only)
   // --------------------------------------------------------------------------
@@ -664,6 +731,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentX = mouseX;
     let currentY = mouseY;
     let isVisible = false;
+    let cursorRafId = null;
+
+    function animateCursorGlow() {
+      if (!isVisible) {
+        cursorRafId = null;
+        return;
+      }
+      currentX += (mouseX - currentX) * 0.50;
+      currentY += (mouseY - currentY) * 0.50;
+      cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+      cursorRafId = requestAnimationFrame(animateCursorGlow);
+    }
 
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
@@ -672,38 +751,24 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isVisible) {
         isVisible = true;
         cursorGlow.classList.add('active');
+        if (!cursorRafId) {
+          cursorRafId = requestAnimationFrame(animateCursorGlow);
+        }
       }
-    });
+    }, { passive: true });
 
     document.addEventListener('mouseleave', () => {
       isVisible = false;
       cursorGlow.classList.remove('active');
-    });
-
-    // Smooth Lerp Animation Loop for Cursor Accent
-    function animateCursorGlow() {
-      if (isVisible) {
-        currentX += (mouseX - currentX) * 0.50;
-        currentY += (mouseY - currentY) * 0.50;
-        cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+      if (cursorRafId) {
+        cancelAnimationFrame(cursorRafId);
+        cursorRafId = null;
       }
-      requestAnimationFrame(animateCursorGlow);
-    }
-    animateCursorGlow();
-
-    // Hover Magnification over Interactive Elements
-    // const interactiveTargets = document.querySelectorAll(
-    //   'a, button, .btn, .service-card, .service-detail-card, .work-card, .why-card, .value-card, .cta-card, .process-card, .quote-card'
-    // );
-
-    // interactiveTargets.forEach(el => {
-    //   el.addEventListener('mouseenter', () => cursorGlow.classList.add('hovered'));
-    //   el.addEventListener('mouseleave', () => cursorGlow.classList.remove('hovered'));
-    // });
+    });
   }
 
   // --------------------------------------------------------------------------
-  // B. Magnetic Button Micro-Interactions
+  // B. Magnetic Button Micro-Interactions (Desktop Only)
   // --------------------------------------------------------------------------
   if (!isReducedMotion && !isTouchDevice) {
     const magneticBtns = document.querySelectorAll(
@@ -711,55 +776,81 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     magneticBtns.forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const deltaX = (e.clientX - centerX) * 0.32;
-        const deltaY = (e.clientY - centerY) * 0.32;
+      let btnRaf = null;
+      let btnX = 0;
+      let btnY = 0;
 
-        btn.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale3d(1.03, 1.03, 1.03)`;
-      });
+      btn.addEventListener('mousemove', (e) => {
+        btnX = e.clientX;
+        btnY = e.clientY;
+        if (btnRaf) return;
+        btnRaf = requestAnimationFrame(() => {
+          btnRaf = null;
+          const rect = btn.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const deltaX = (btnX - centerX) * 0.32;
+          const deltaY = (btnY - centerY) * 0.32;
+          btn.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale3d(1.03, 1.03, 1.03)`;
+        });
+      }, { passive: true });
 
       btn.addEventListener('mouseleave', () => {
+        if (btnRaf) {
+          cancelAnimationFrame(btnRaf);
+          btnRaf = null;
+        }
         btn.style.transform = `translate3d(0, 0, 0) scale3d(1, 1, 1)`;
       });
     });
   }
 
   // --------------------------------------------------------------------------
-  // C. Interactive Spotlight Coordinates & 3D Tilt for Glass Cards
+  // C. Interactive Spotlight Coordinates & 3D Tilt for Glass Cards (Desktop)
   // --------------------------------------------------------------------------
-  const tiltableCards = document.querySelectorAll(
-    '.service-card, .service-detail-card, .work-card, .quote-card, .cta-card, .process-card, .why-card, .value-card, .feature-card'
-  );
+  if (!isReducedMotion && !isTouchDevice) {
+    const tiltableCards = document.querySelectorAll(
+      '.service-card, .service-detail-card, .work-card, .quote-card, .cta-card, .process-card, .why-card, .value-card, .feature-card'
+    );
 
-  tiltableCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    tiltableCards.forEach(card => {
+      let cardRaf = null;
+      let cardClientX = 0;
+      let cardClientY = 0;
 
-      // Update CSS variables for internal radial spotlight highlight
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
+      card.addEventListener('mousemove', (e) => {
+        cardClientX = e.clientX;
+        cardClientY = e.clientY;
+        if (cardRaf) return;
 
-      if (!isReducedMotion && !isTouchDevice) {
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -6.5;
-        const rotateY = ((x - centerX) / centerX) * 6.5;
+        cardRaf = requestAnimationFrame(() => {
+          cardRaf = null;
+          const rect = card.getBoundingClientRect();
+          const x = cardClientX - rect.left;
+          const y = cardClientY - rect.top;
 
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(0, -6px, 0) scale3d(1.02, 1.02, 1.02)`;
-      }
-    });
+          // Update CSS variables for internal radial spotlight highlight
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
 
-    card.addEventListener('mouseleave', () => {
-      if (!isReducedMotion && !isTouchDevice) {
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -6.5;
+          const rotateY = ((x - centerX) / centerX) * 6.5;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(0, -6px, 0) scale3d(1.02, 1.02, 1.02)`;
+        });
+      }, { passive: true });
+
+      card.addEventListener('mouseleave', () => {
+        if (cardRaf) {
+          cancelAnimationFrame(cardRaf);
+          cardRaf = null;
+        }
         card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0) scale3d(1, 1, 1)`;
-      }
+      });
     });
-  });
+  }
 
   // --------------------------------------------------------------------------
   // D. Scroll Reveal Animations (IntersectionObserver System)
@@ -784,6 +875,7 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
       }
     });
   }, {
@@ -794,73 +886,93 @@ document.addEventListener('DOMContentLoaded', () => {
   revealElements.forEach(el => revealObserver.observe(el));
 
   // --------------------------------------------------------------------------
-  // E. Multi-Layer High-Performance Parallax Scroll Loop
+  // E. Navbar Elevation (IntersectionObserver) & rAF-Throttled Desktop Parallax
   // --------------------------------------------------------------------------
+  const navbar = document.querySelector('.navbar');
+  if (navbar) {
+    const scrollSentinel = document.createElement('div');
+    scrollSentinel.setAttribute('aria-hidden', 'true');
+    scrollSentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:35px;pointer-events:none;opacity:0;';
+    document.body.prepend(scrollSentinel);
+
+    const navObserver = new IntersectionObserver((entries) => {
+      navbar.classList.toggle('navbar-scrolled', !entries[0].isIntersecting);
+    }, { threshold: 0 });
+    navObserver.observe(scrollSentinel);
+  }
+
   const ambientBlobs = document.querySelectorAll('.bg-ambient-blob');
   const heroVisual = document.querySelector('.hero-visual');
   const spacePlanets = document.querySelectorAll('.space-planet');
-  const navbar = document.querySelector('.navbar');
 
-  let latestScrollY = 0;
-  let ticking = false;
+  if (!isReducedMotion && !isTouchDevice && window.innerWidth > 768) {
+    let latestScrollY = window.scrollY || window.pageYOffset;
+    let ticking = false;
+    let isHeroVisualVisible = true;
 
-  function updateParallax() {
-    // 1. Navbar Scroll Elevation State
-    if (navbar) {
-      if (latestScrollY > 35) {
-        navbar.classList.add('navbar-scrolled');
-      } else {
-        navbar.classList.remove('navbar-scrolled');
-      }
+    if (heroVisual && 'IntersectionObserver' in window) {
+      const heroObserver = new IntersectionObserver((entries) => {
+        isHeroVisualVisible = entries[0].isIntersecting;
+      }, { threshold: 0 });
+      heroObserver.observe(heroVisual);
     }
 
-    if (!isReducedMotion) {
-      // 2. Ambient Background Blobs Parallax Shift
+    function updateParallax() {
+      // Ambient Background Blobs Parallax Shift
       ambientBlobs.forEach((blob, i) => {
         const speed = (i + 1) * 0.12;
         blob.style.transform = `translate3d(0, ${latestScrollY * speed}px, 0)`;
       });
 
-      // 3. Hero Visual Depth Parallax
-      if (heroVisual && latestScrollY < 1000) {
+      // Hero Visual Depth Parallax (only while visible)
+      if (heroVisual && isHeroVisualVisible && latestScrollY < 1000) {
         heroVisual.style.transform = `translate3d(0, ${latestScrollY * 0.15}px, 0)`;
       }
 
-      // 4. Floating Space Planets Parallax Depth
+      // Floating Space Planets Parallax Depth
       spacePlanets.forEach((planet, i) => {
         const factor = (i % 2 === 0 ? 1 : -1) * (0.08 + (i * 0.04));
         planet.style.transform = `translate3d(0, ${latestScrollY * factor}px, 0)`;
       });
+
+      ticking = false;
     }
 
-    ticking = false;
+    window.addEventListener('scroll', () => {
+      latestScrollY = window.scrollY || window.pageYOffset;
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    updateParallax();
   }
 
-  window.addEventListener('scroll', () => {
-    latestScrollY = window.pageYOffset;
-    if (!ticking) {
-      requestAnimationFrame(updateParallax);
-      ticking = true;
-    }
-  }, { passive: true });
-
-  // Initial calculation call
-  updateParallax();
-
   // --------------------------------------------------------------------------
-  // F. Mouse Move Ambient Parallax for Floating Accents & Sparkles
+  // F. Mouse Move Ambient Parallax for Floating Accents & Sparkles (rAF Throttled)
   // --------------------------------------------------------------------------
   if (!isReducedMotion && !isTouchDevice) {
     const sparkles = document.querySelectorAll('.diamond-sparkle, .quote-sparkle');
-    document.addEventListener('mousemove', (e) => {
-      const mouseX = e.clientX / window.innerWidth - 0.5;
-      const mouseY = e.clientY / window.innerHeight - 0.5;
+    if (sparkles.length > 0) {
+      let sparkleRaf = null;
+      let mouseNormX = 0;
+      let mouseNormY = 0;
 
-      sparkles.forEach((sparkle, i) => {
-        const factor = ((i % 3) + 1) * 14;
-        sparkle.style.transform = `translate3d(${mouseX * factor}px, ${mouseY * factor}px, 0) rotate(${mouseX * 15}deg)`;
-      });
-    });
+      document.addEventListener('mousemove', (e) => {
+        mouseNormX = e.clientX / window.innerWidth - 0.5;
+        mouseNormY = e.clientY / window.innerHeight - 0.5;
+        if (sparkleRaf) return;
+
+        sparkleRaf = requestAnimationFrame(() => {
+          sparkleRaf = null;
+          sparkles.forEach((sparkle, i) => {
+            const factor = ((i % 3) + 1) * 14;
+            sparkle.style.transform = `translate3d(${mouseNormX * factor}px, ${mouseNormY * factor}px, 0) rotate(${mouseNormX * 15}deg)`;
+          });
+        });
+      }, { passive: true });
+    }
   }
 });
 
