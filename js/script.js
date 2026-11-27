@@ -432,57 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initHeroCanvas();
 
-  // 7. Interactive 3D Card Tilt & Astronaut Rotation Effect (Desktop Only)
-  function initHeroTiltCard() {
-    const tiltCard = document.getElementById('heroTiltCard');
-    const heroSection = document.getElementById('hero');
-    if (!tiltCard || !heroSection || isReducedMotion || isTouchDevice) return;
-
-    let tiltRaf = null;
-    let lastClientX = 0;
-    let lastClientY = 0;
-
-    heroSection.addEventListener('mousemove', (e) => {
-      lastClientX = e.clientX;
-      lastClientY = e.clientY;
-      if (tiltRaf) return;
-
-      tiltRaf = requestAnimationFrame(() => {
-        tiltRaf = null;
-        const rect = tiltCard.getBoundingClientRect();
-        const cardCenterX = rect.left + rect.width / 2;
-        const cardCenterY = rect.top + rect.height / 2;
-
-        // Vertical subtle tilt (-12deg to 12deg)
-        const y = lastClientY - cardCenterY;
-        const tiltX = Math.max(-12, Math.min(12, (y / (rect.height / 2)) * -12));
-
-        // Horizontal rotation based on cursor movement towards left edge
-        let rotateY = 0;
-        if (lastClientX < cardCenterX) {
-          const leftRatio = Math.max(0, Math.min(1, (cardCenterX - lastClientX) / cardCenterX));
-          rotateY = leftRatio * -50;
-        } else {
-          const rightMax = (window.innerWidth - cardCenterX) || 1;
-          const rightRatio = Math.max(0, Math.min(1, (lastClientX - cardCenterX) / rightMax));
-          rotateY = rightRatio * -50;
-        }
-
-        tiltCard.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
-      });
-    }, { passive: true });
-
-    heroSection.addEventListener('mouseleave', () => {
-      if (tiltRaf) {
-        cancelAnimationFrame(tiltRaf);
-        tiltRaf = null;
-      }
-      tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-    });
-  }
-
-  initHeroTiltCard();
-
   // 8. Normal Service Page Interactive Logic (Filter, Search, Accordions, Modal)
   const serviceCards = document.querySelectorAll('.service-detail-card');
   const filterBtns = document.querySelectorAll('.category-filter-tabs .filter-btn');
